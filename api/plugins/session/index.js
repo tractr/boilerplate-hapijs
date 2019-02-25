@@ -220,5 +220,5 @@ exports.plugin = {
 	name: 'session',
 	version: '1.0.0',
 	description: 'Session For Api',
-    dependencies: 'hapi-auth-cookie'
+	dependencies: 'hapi-auth-cookie'
 };

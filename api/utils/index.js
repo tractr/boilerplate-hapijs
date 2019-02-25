@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    Hash: require('./hash'),
-    Entity: require('./entity'),
-    Object: require('./object')
+	Hash: require('./hash'),
+	Entity: require('./entity'),
+	Object: require('./object')
 };
