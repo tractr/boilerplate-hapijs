@@ -11,8 +11,11 @@ services:
   #--------------------------------------------------
   # NodeJS API
   api:
-    image: api
-    build: ./api
+    image: node:9.11
+    working_dir: /app
+    command: bash -c "npm install && npm start"
+#    image: api
+#    build: ./api
     depends_on:
       - mongodb
     ports:
