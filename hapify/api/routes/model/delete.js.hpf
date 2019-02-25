@@ -1,0 +1,99 @@
+'use strict';
+ 
+/**
+ * Delete <<M a>>
+ */
+ 
+const Joi = require('joi');
+const Boom = require('boom');
+const MongoDB = require('mongodb');
+<<? Ad ow>>
+const Pres = require('../../pres');
+<<?>>
+ 
+// Validation schema for params
+const schema = Joi.object({
+    <<P a_a>>: Joi.string().length(24).hex().required()
+});
+ 
+/**
+ * Define handler
+ */
+const handler = async (request, h) => {
+ 
+    // Get <<M a>> <<P a>>
+    const <<P a_a>> = new MongoDB.ObjectId(request.params.<<P a_a>>);
+ 
+    // @hook delete:before-delete:<<M a-a>>
+    
+    // Remove <<M a>> from database
+    const result = await request.server.db.collection('<<M a_a>>')
+        .deleteOne({ <<P a_a>> });
+ 
+    if (result.deletedCount === 0) {
+        throw Boom.notFound('<<M A>> not found');
+    }
+ 
+    // @hook delete:after-delete:<<M a-a>>
+
+<<? R>>
+ 
+    <<@ R m>>
+        <<@ m.f f>>
+    // Remove references in <<m a>> as <<f a>>
+    await request.server.db.collection('<<m a_a>>')
+            <<? f ml>>
+        .updateMany({ <<f a_a>>: <<P a_a>> }, { $pull: { <<f a_a>>: <<P a_a>> } });
+            <<??>>
+        .updateMany({ <<f a_a>>: <<P a_a>> }, { $set: { <<f a_a>>: null } });
+            <<?>>
+
+        <<@>>
+    <<@>>
+
+<<?>>
+ 
+    return h.response().code(204);
+};
+ 
+/**
+ * Export route to delete <<M a>>
+ */
+module.exports = [
+    {
+        method: 'DELETE',
+        path: '/admin/<<M a-a>>/{<<P a_a>>}',
+        config: {
+            validate: { params: schema },
+            description: 'Route to delete <<M a>> as admin',
+            tags: ['admin', '<<M a-a>>', 'delete'],
+            auth: {
+                strategy: 'session',
+                scope: 'role-admin'
+            }
+        },
+        handler
+    },
+<<? Ad [ow>>
+    {
+        method: 'DELETE',
+        path: '/<<M a-a>>/{<<P a_a>>}',
+        config: {
+            validate: { params: schema },
+            description: 'Route to delete <<M a>>',
+            tags: ['<<M a-a>>', 'delete'],
+    <<? Ad !gs>>
+            auth: { strategy: 'session' },
+    <<?>>
+    <<? Ad ow>>
+            pre: [
+                { method: Pres.GetEntity('<<M a_a>>', 'params.<<P a_a>>'), assign: '<<M aA>>' },
+                { method: Pres.EnsureAccess('pre.<<M aA>>.<<@1 F os o>><<o a_a>><<@>>') }
+            ]
+    <<?>>
+        },
+        handler
+    }
+<<?>>
+];
+ 

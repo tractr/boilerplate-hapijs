@@ -1,0 +1,176 @@
+'use strict';
+ 
+/**
+ * Update <<M a>>
+ */
+ 
+const Joi = require('joi');
+const Boom = require('boom');
+const MongoDB = require('mongodb');
+<<? Au ow>>
+const Pres = require('../../pres');
+<<?>>
+ 
+// Validation schema for params
+const schemaParams = Joi.object({
+    <<P a_a>>: Joi.string().length(24).hex().required()
+});
+// Validation schema for payload
+const schemaObjectPayloadPublic = {
+<<@ F /rs/in f>>
+    <<f a_a>>: <<=joiValidator(f)>>,
+<<@>>
+};
+<<? F rs>>
+const schemaObjectPayloadAdmin = Object.assign({
+    <<@ F rs f>>
+    <<f a_a>>: <<=joiValidator(f)>>,
+    <<@>>
+}, schemaObjectPayloadPublic);
+<<??>>
+const schemaObjectPayloadAdmin = schemaObjectPayloadPublic;
+<<?>>
+ 
+/**
+ * Define handler
+ */
+const handler = async (request, h) => {
+ 
+    // Get updates from payload
+    const updates = { $set: request.payload };
+ 
+    // Get <<M a>> <<P a>>
+    const <<P a_a>> = new MongoDB.ObjectId(request.params.<<P a_a>>);
+
+<<? F tE/in>>
+ 
+    // Convert reference fields
+    <<@ F tE/in r>>
+        <<? r ml>>
+    if (updates.$set.<<r a_a>> instanceof Array) {
+        updates.$set.<<r a_a>> = updates.$set.<<r a_a>>.map((i) => new MongoDB.ObjectId(i));
+    }
+        <<??>>
+    if (typeof updates.$set.<<r a_a>> === 'string') {
+        updates.$set.<<r a_a>> = new MongoDB.ObjectId(request.payload.<<r a_a>>);
+    }
+        <<?>>
+    <<@>>
+<<?>>
+
+<<@ F tSp/in p>>
+ 
+    // Hash <<p a>>
+    if (typeof updates.$set.<<p a_a>> !== 'undefined') {
+        updates.$set.<<p a_a>> = request.server.utils.Hash.bcrypt(updates.$set.<<p a_a>>);
+    }
+<<@>>
+ 
+    // @hook update:before-update:<<M a-a>>
+ 
+    // Insertion options
+    const options = { w: 'majority' };
+ 
+    // Update <<M a>> in database
+<<? F un>>
+    let result;
+    try {
+        result = await request.server.db.collection('<<M a_a>>')
+            .findOneAndUpdate({ <<P a_a>> }, updates, options);
+    }
+    catch (e) {
+        // Handle duplicated key for unique indexes
+        throw e.name === 'MongoError' && e.code === 11000 ?
+            Boom.conflict('Duplicate key') :
+            Boom.boomify(e);
+    }
+<<??>>
+    const result = await request.server.db.collection('<<M a_a>>')
+        .findOneAndUpdate({ <<P a_a>> }, updates, options);
+<<?>>
+ 
+    if (result.value === null) {
+        throw Boom.notFound('<<M A>> not found');
+    }
+ 
+    // @hook update:after-update:<<M a-a>>
+ 
+    return h.response().code(204);
+};
+ 
+/**
+ * Export route to update <<M a>>
+ */
+module.exports = [
+    {
+        method: 'PATCH',
+        path: '/admin/<<M a-a>>/{<<P a_a>>}',
+        config: {
+            validate: {
+                params: schemaParams,
+                payload: Joi.object(schemaObjectPayloadAdmin).min(1)
+            },
+            description: 'Route to update <<M a>> as admin',
+            tags: ['admin', '<<M a-a>>', 'update'],
+            auth: {
+                strategy: 'session',
+                scope: 'role-admin'
+            }
+        },
+        handler
+    },
+<<? Au [ow>>
+    {
+        method: 'PATCH',
+        path: '/<<M a-a>>/{<<P a_a>>}',
+        config: {
+            validate: {
+                params: schemaParams,
+                payload: Joi.object(schemaObjectPayloadPublic).min(1)
+            },
+            description: 'Route to update <<M a>>',
+            tags: ['<<M a-a>>', 'update'],
+    <<? Au !gs>>
+            auth: { strategy: 'session' },
+    <<?>>
+    <<? Au ow>>
+            pre: [
+                { method: Pres.GetEntity('<<M a_a>>', 'params.<<P a_a>>'), assign: '<<M aA>>' },
+                { method: Pres.EnsureAccess('pre.<<M aA>>.<<@1 F os o>><<o a_a>><<@>>') }
+            ]
+    <<?>>
+        },
+        handler
+    }
+<<?>>
+];
+ 
+<<< 
+function joiValidator(f) {
+    let out = "Joi.";
+    
+    if (f.type === "boolean") out += "boolean()";
+    else if (f.type === "string") {
+        out +=  "string()";
+        if (f.subtype === "email") out += ".email().lowercase()";
+        else if (f.subtype === "password") out += ".min(6)";
+        out +=  ".trim()";
+    }
+    else if (f.type === "number" || f.type === "datetime") {
+        out +=  "number()";
+        if (f.subtype === "latitude") out += ".min(-90).max(90)";
+        else if (f.subtype === "longitude") out += ".min(-180).max(180)";
+    }
+    if (f.type === "entity") out +=  "string().length(24).hex()";
+    
+    /* Multiple and nullable */
+    if (f.multiple) {
+        out = `Joi.array().items(${out})`;
+        out += f.nullable ? ".min(0)" : ".min(1)";
+    } else {
+        if (f.nullable) out += ".allow(null)";
+    }
+    
+    return out;
+}
+>>>

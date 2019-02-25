@@ -1,0 +1,110 @@
+'use strict';
+ 
+/**
+ * Read <<M a>>
+ */
+ 
+const Joi = require('joi');
+const Boom = require('boom');
+const MongoDB = require('mongodb');
+<<? Ar ow>>
+const Pres = require('../../pres');
+<<?>>
+
+<<# Includes projection if this model has private fields >>
+<<? F ip>>
+const <<M AA>>Projection = require('./inc').projection;
+<<?>>
+
+<<# Includes projections for all non-private dependencies that have private fields >>
+<<@ D !ip d>>
+    <<? d.f ip>>
+const <<d AA>>Projection = require('../<<d a-a>>/inc').projection;
+    <<?>>
+<<@>>
+ 
+// Validation schema for params
+const schema = Joi.object({
+    <<P a_a>>: Joi.string().length(24).hex().required()
+});
+ 
+/**
+ * Define handler
+ */
+const handler = async (request) => {
+ 
+    // Get <<M a>> <<P a>>
+    const <<P a_a>> = new MongoDB.ObjectId(request.params.<<P a_a>>);
+ 
+    // Get <<M a>> from database
+    const result = await request.server.db.collection('<<M a_a>>')
+        .findOne({ <<P a_a>> }<<? F ip>>, { projection: <<M AA>>Projection() }<<?>>);
+ 
+    if (!result) {
+        throw Boom.notFound('<<M A>> not found');
+    }
+
+<<? F tE/ip>>
+ 
+    // Convert reference fields
+    await request.server.utils.Entity
+        .populate(request.server.db, result, [
+    <<@ F tE/ip r>>
+            {
+                col: '<<r.m a_a>>',
+                prop: '<<r a_a>>',
+        <<? r ml>>
+                multiple: true,
+        <<?>>
+        <<? r.m.f ip>>
+                projection: <<r.m AA>>Projection()
+        <<?>>
+            },
+    <<@>>
+        ]);
+<<?>>
+ 
+    return result;
+};
+ 
+/**
+ * Export route to get <<M a>>
+ */
+module.exports = [
+    {
+        method: 'GET',
+        path: '/admin/<<M a-a>>/{<<P a_a>>}',
+        config: {
+            validate: { params: schema },
+            description: 'Route to get <<M a>> as admin',
+            tags: ['admin', '<<M a-a>>', 'read'],
+            auth: {
+                strategy: 'session',
+                scope: 'role-admin'
+            }
+        },
+        handler
+    },
+<<? Ar [ow>>
+    {
+        method: 'GET',
+        path: '/<<M a-a>>/{<<P a_a>>}',
+        config: {
+            validate: { params: schema },
+            description: 'Route to get <<M a>>',
+            tags: ['<<M a-a>>', 'read'],
+    <<? Ar !gs>>
+            auth: { strategy: 'session' },
+    <<?>>
+    <<? Ar ow>>
+            pre: [
+                { method: Pres.GetEntity('<<M a_a>>', 'params.<<P a_a>>'), assign: '<<M aA>>' },
+                { method: Pres.EnsureAccess('pre.<<M aA>>.<<@1 F os o>><<o a_a>><<@>>') }
+            ]
+    <<?>>
+        },
+        handler
+    }
+<<?>>
+];
+ 

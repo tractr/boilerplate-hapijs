@@ -1,11 +1,11 @@
 {
   "validatorPath": "hapify/validator.js",
-  "name": "hapijs-ngx",
-  "description": "A brand new channel",
+  "name": "HapiJS & Angular",
+  "description": "HapiJS v17 and Angular 7",
   "project": "5c7019c998ebdb001075f1ed",
   "defaultFields": [
     {
-      "name": "Id",
+      "name": "_id",
       "type": "string",
       "subtype": null,
       "reference": null,
@@ -20,12 +20,65 @@
       "isPrivate": false,
       "internal": true,
       "restricted": false,
+      "ownership": true
+    },
+    {
+      "name": "created_at",
+      "type": "datetime",
+      "subtype": null,
+      "reference": null,
+      "primary": false,
+      "unique": false,
+      "label": false,
+      "nullable": false,
+      "multiple": false,
+      "important": false,
+      "searchable": false,
+      "sortable": true,
+      "isPrivate": false,
+      "internal": true,
+      "restricted": false,
       "ownership": false
     }
   ],
   "templates": [
     {
-      "path": "models/{model.hyphen}/hello.js",
+      "path": "api/routes/{model.hyphen}/create.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "api/routes/{model.hyphen}/delete.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "api/routes/{model.hyphen}/inc.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "api/routes/{model.hyphen}/index.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "api/routes/index.js",
+      "engine": "hpf",
+      "input": "all"
+    },
+    {
+      "path": "api/routes/{model.hyphen}/read.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "api/routes/{model.hyphen}/search.js",
+      "engine": "hpf",
+      "input": "one"
+    },
+    {
+      "path": "api/routes/{model.hyphen}/update.js",
       "engine": "hpf",
       "input": "one"
     }

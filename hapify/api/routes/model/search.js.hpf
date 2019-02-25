@@ -1,0 +1,264 @@
+'use strict';
+ 
+/**
+ * Search & count <<M a>>
+ */
+ 
+const Joi = require('joi');
+const MongoDB = require('mongodb');
+<<? F ip>>
+const <<M AA>>Projection = require('./inc').projection;
+<<?>>
+
+<<# Includes projections for all important (forced non-private) dependencies that have private fields >>
+<<@ D im d>>
+    <<? d.f ip>>
+const <<d AA>>Projection = require('../<<d a-a>>/inc').projection;
+    <<?>>
+<<@>>
+ 
+// Validation schema for query
+const baseObjectSchema = {
+    <<P a_a>>: Joi.array().items(Joi.string().length(24).hex()).single(),
+<<@ F se f>>
+    <<=joiValidator(f)>>
+<<@>>
+};
+const createFiltrableSchema = (input) => Joi.object(input)
+<<@ F se*(tN+tD) f>>
+    .without('<<f a_a>>', ['<<f a_a>>__min', '<<f a_a>>__max'])
+<<@>>;
+const createSearchableSchema = (input) => createFiltrableSchema(Object.assign({
+    _page: Joi.number().min(0).required(),
+    _limit: Joi.number().min(1).max(100).required(),
+    _sort: Joi.string().valid(<<@ F so+pr f>>'<<f a_a>>', <<@>>),
+    _order: Joi.string().valid('asc', 'desc')
+}, input));
+ 
+<<# If we are in an search/count by owner context and the ownership field is searchable >>
+<<# therefore we don't allow filtering by this field for public user. It will be forced in the handler >>
+<<? As [ow>>
+const searchSchemaPublic = createSearchableSchema(baseObjectSchema)<<? As ow>><<=forbiddenKeys()>><<?>>;
+<<?>>
+<<? An [ow>>
+const countSchemaPublic = createFiltrableSchema(baseObjectSchema)<<? An ow>><<=forbiddenKeys()>><<?>>;
+<<?>>
+const searchSchemaAdmin = createSearchableSchema(baseObjectSchema);
+const countSchemaAdmin = createFiltrableSchema(baseObjectSchema);
+ 
+/**
+ * Helper to get the MongoDB cursor
+ * @param {Request} request
+ * @return {MongoDB.Cursor}
+ */
+const getCursor = (request) => {
+ 
+    // Build filter from query
+    const filter = Object.assign({}, request.query);
+    delete filter._page;
+    delete filter._limit;
+    delete filter._sort;
+    delete filter._order;
+ 
+    // Convert MongoId for <<P a>>
+    if (filter.<<P a_a>>) {
+        filter.<<P a_a>> = { $in: filter.<<P a_a>>.map((i) => new MongoDB.ObjectId(i)) };
+    }
+
+<<@ F se f>>
+
+    <<? f tN+tD>>
+ 
+    // Set min for <<f a>> if defined
+    if (typeof filter.<<f a_a>>__min !== 'undefined') {
+        filter.<<f a_a>> = filter.<<f a_a>> || {};
+        filter.<<f a_a>>.$gte = filter.<<f a_a>>__min;
+        delete filter.<<f a_a>>__min;
+    }
+    // Set max for <<f a>> if defined
+    if (typeof filter.<<f a_a>>__max !== 'undefined') {
+        filter.<<f a_a>> = filter.<<f a_a>> || {};
+        filter.<<f a_a>>.$lte = filter.<<f a_a>>__max;
+        delete filter.<<f a_a>>__max;
+    }
+    <<?? f tE>>
+ 
+    // Convert MongoId for <<f a>>
+    if (filter.<<f a_a>>) {
+        <<? f ml>>
+        filter.<<f a_a>> = { $all: filter.<<f a_a>>.map((i) => new MongoDB.ObjectId(i)) };
+        <<??>>
+        filter.<<f a_a>> = new MongoDB.ObjectId(filter.<<f a_a>>);
+        <<?>>
+    }
+        <<? As ow>>
+            <<? f os>>
+    else if (!request.fromAdmin) {
+        filter.<<f a_a>> = <<? f ml>>[<<?>>request.auth.credentials._id<<? f ml>>]<<?>>;
+    }
+            <<?>>
+        <<?>>
+    <<?? f tS*lb>>
+ 
+    // Use regexp for <<f a>>
+    if (filter.<<f a_a>>) {
+        filter.<<f a_a>> = new RegExp(filter.<<f a_a>>.replace(/[-[\\]{}()*+?.,\\\\^$|#\\s]/g, '\\\\$&'), 'i');
+    }
+    <<?>>
+<<@>>
+    
+    return request.server.db.collection('<<M a_a>>')
+        .find(filter<<? F ip>>, { projection: <<M AA>>Projection() }<<?>>);
+};
+ 
+/**
+ * Define handler for search
+ */
+const searchHandler = async (request) => {
+ 
+    // Build pagination vars
+    const skip = request.query._page * request.query._limit;
+    const order = request.query._order || 'asc';
+    const sort = request.query._sort;
+ 
+    // Get <<M a>> list from database
+    const cursor = getCursor(request)
+        .skip(skip)
+        .limit(request.query._limit);
+ 
+    // Add sorting if available
+    if (sort) {
+        cursor.sort( { [sort]: order === 'asc' ? 1 : -1 } );
+    }
+ 
+    // Start query
+    const results = await cursor.toArray();
+    const total = await cursor.count();
+
+<<? F tE*im>>
+ 
+    // Convert reference fields
+    await request.server.utils.Entity
+        .populateList(request.server.db, results, [
+    <<@ F tE*im r>>
+            {
+                col: '<<r.m a_a>>',
+                prop: '<<r a_a>>',
+        <<? r ml>>
+                multiple: true,
+        <<?>>
+        <<? r.m.f ip>>
+                projection: <<r.m AA>>Projection()
+        <<?>>
+            },
+    <<@>>
+        ]);
+<<?>>
+ 
+    return {
+        page: request.query._page,
+        limit: request.query._limit,
+        count: results.length,
+        total,
+        items: results
+    };
+};
+ 
+/**
+ * Define handler for count
+ */
+const countHandler = async (request) => {
+    // Count <<M a>> from database
+    return { total: await getCursor(request).count() };
+};
+ 
+/**
+ * Export routes to search & count <<M a>>
+ */
+module.exports = [
+    {
+        method: 'GET',
+        path: '/admin/<<M a-a>>',
+        config: {
+            validate: { query: searchSchemaAdmin },
+            description: 'Route to search <<M a>> as admin',
+            tags: ['admin', '<<M a-a>>', 'search'],
+            auth: {
+                strategy: 'session',
+                scope: 'role-admin'
+            }
+        },
+        handler: searchHandler
+    },
+    {
+        method: 'GET',
+        path: '/admin/<<M a-a>>/count',
+        config: {
+            validate: { query: countSchemaAdmin },
+            description: 'Route to count <<M a>> as admin',
+            tags: ['admin', '<<M a-a>>', 'count'],
+            auth: {
+                strategy: 'session',
+                scope: 'role-admin'
+            }
+        },
+        handler: countHandler
+    },
+<<? As [ow>>
+    {
+        method: 'GET',
+        path: '/<<M a-a>>',
+        config: {
+            validate: { query: searchSchemaPublic },
+            description: 'Route to search <<M a>>',
+            tags: ['<<M a-a>>', 'search'],
+    <<? As !gs>>
+            auth: { strategy: 'session' },
+    <<?>>
+        },
+        handler: searchHandler
+    },
+<<?>>
+<<? An [ow>>
+    {
+        method: 'GET',
+        path: '/<<M a-a>>/count',
+        config: {
+            validate: { query: countSchemaPublic },
+            description: 'Route to count <<M a>>',
+            tags: ['<<M a-a>>', 'count'],
+    <<? An !gs>>
+            auth: { strategy: 'session' },
+    <<?>>
+        },
+        handler: countHandler
+    }
+<<?>>
+];
+ 
+<<< 
+function joiValidator(f) {
+    const prop = f.names.underscore;
+    let v = "";
+    
+    if (f.type === "boolean") v = `${prop}: Joi.boolean(),`;
+    else if (f.type === "string") v = `${prop}: Joi.string(),`;
+    else if (f.type === "number" || f.type === "datetime") {
+        v = `${prop}: Joi.number(),\n    ${prop}__min: Joi.number(),\n    ${prop}__max: Joi.number(),`;
+    }
+    else if (f.type === "entity") {
+        const validator = "Joi.string().length(24).hex()";
+        if (f.multiple) {
+            v = `${prop}: Joi.array().items(${validator}).single(),`;
+        } else {
+            v = `${prop}: ${validator},`;
+        }
+    }
+    
+    return v;
+}
+function forbiddenKeys() {
+    const field = root.fields.list.find((f) => f.searchable && f.ownership);
+    return field ? `.forbiddenKeys(['${field.names.underscore}'])` : "";
+}
+>>>
