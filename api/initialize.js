@@ -44,7 +44,10 @@ module.exports = async (Configs, silent = false) => {
 	if (!silent) {
 		// Display available routes
 		const table = Server.table();
-		const routes = table.map(route => `${route.method.toUpperCase()} ${route.path}`).join('\n');
+		const routes = table
+			.sort((a, b) => a.path.localeCompare(b.path))
+			.map(route => `${route.method.toUpperCase()}\t${route.path}`)
+			.join('\n');
 		Server.log(['booting'], `Loaded ${table.length} routes:\n${routes}`);
 	}
 
