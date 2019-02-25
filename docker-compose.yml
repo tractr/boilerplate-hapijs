@@ -1,0 +1,42 @@
+version: "3"
+
+volumes:
+  mongodb-data:
+    driver: local
+  redis-data:
+    driver: local
+
+services:
+
+  #--------------------------------------------------
+  # NodeJS API
+  api:
+    image: node:11.10
+    command: npm start
+    working_dir: /api
+    depends_on:
+      - mongodb
+    ports:
+     - "9000"
+    volumes:
+      - ./api:/src
+
+  #--------------------------------------------------
+  # Cache
+  redis:
+    image: redis:4.0
+    command: --appendonly yes
+    ports:
+      - "6379"
+    volumes:
+      - redis-data:/data
+
+  #--------------------------------------------------
+  # Database
+  mongodb:
+    image: mongo:3.6
+    container_name: mongodb
+    ports:
+      - "27017"
+    volumes:
+      - mongodb-data:/data/db
