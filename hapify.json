@@ -1,0 +1,33 @@
+{
+  "validatorPath": "hapify/validator.js",
+  "name": "hapijs-ngx",
+  "description": "A brand new channel",
+  "project": "5c7019c998ebdb001075f1ed",
+  "defaultFields": [
+    {
+      "name": "Id",
+      "type": "string",
+      "subtype": null,
+      "reference": null,
+      "primary": true,
+      "unique": false,
+      "label": false,
+      "nullable": false,
+      "multiple": false,
+      "important": false,
+      "searchable": false,
+      "sortable": false,
+      "isPrivate": false,
+      "internal": true,
+      "restricted": false,
+      "ownership": false
+    }
+  ],
+  "templates": [
+    {
+      "path": "models/{model.hyphen}/hello.js",
+      "engine": "hpf",
+      "input": "one"
+    }
+  ]
+}
