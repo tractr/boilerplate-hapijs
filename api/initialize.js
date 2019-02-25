@@ -7,19 +7,15 @@ const MongoClient = require('mongodb').MongoClient;
  * Init configs
  */
 module.exports = async (Configs, silent = false) => {
-	
 	// Connect to mongodb
 	const { url, options } = Configs.Database.connection;
-	const dbClient = await MongoClient.connect(
-		url,
-		options
-	);
+	const dbClient = await MongoClient.connect(url, options);
 
 	// Get flatten routes
 	const GroupedRoutes = require('./routes');
 	const Routes = Object.keys(GroupedRoutes).reduce((p, c) => p.concat(GroupedRoutes[c]), []);
 
-	// Get Plugins, Exts and utils
+	// Get Plugins and utils
 	const Utils = require('./utils');
 	const Plugins = require('./plugins');
 

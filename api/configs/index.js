@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
-	Server: require('./server'),
-	Database: require('./database')
+	Database: require('./database'),
+	Logging: require('./logging'),
+	Server: require('./server')
 };

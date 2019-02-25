@@ -3,6 +3,10 @@
 const Configs = require('../configs');
 
 const plugins = [
+	{
+		plugin: require('good'),
+		options: Configs.Logging
+	}
 ];
 
 if (Configs.Server.app.documentation.enable) {

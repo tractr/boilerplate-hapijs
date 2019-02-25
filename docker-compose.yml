@@ -16,10 +16,12 @@ services:
     command: bash -c "npm install && npm start"
 #    image: api
 #    build: ./api
+    environment:
+      NODE_ENV: development
     depends_on:
       - mongodb
     ports:
-     - "3000"
+     - "3000:3000"
     volumes:
       - ./api:/app
 
