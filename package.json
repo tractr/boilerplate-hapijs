@@ -1,5 +1,5 @@
 {
-  "name": "boilerplate-hapijs-ngx-api",
+  "name": "boilerplate-hapijs",
   "version": "1.0.0",
   "description": "HapiJs server",
   "main": "index.js",

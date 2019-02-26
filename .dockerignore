@@ -1,4 +1,7 @@
 Dockerfile
+docker-compose.yml
+hapify.json
+hapify
 node_modules
 *.md
 .*
