@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "cmd": "node ./cmd/index.js",
     "update": "./node_modules/npm-check/bin/cli.js -u",
     "lint": "./node_modules/.bin/prettier --write '**/*.js'"
   },
