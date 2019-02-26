@@ -44,6 +44,21 @@
   ],
   "templates": [
     {
+      "path": "cmd/setup/indexes.json",
+      "engine": "js",
+      "input": "all"
+    },
+    {
+      "path": "models.json",
+      "engine": "js",
+      "input": "all"
+    },
+    {
+      "path": "MODELS.md",
+      "engine": "js",
+      "input": "all"
+    },
+    {
       "path": "routes/{model.hyphen}/create.js",
       "engine": "hpf",
       "input": "one"
@@ -64,11 +79,6 @@
       "input": "one"
     },
     {
-      "path": "routes/index.js",
-      "engine": "hpf",
-      "input": "all"
-    },
-    {
       "path": "routes/{model.hyphen}/read.js",
       "engine": "hpf",
       "input": "one"
@@ -84,13 +94,8 @@
       "input": "one"
     },
     {
-      "path": "cmd/setup/indexes.json",
-      "engine": "js",
-      "input": "all"
-    },
-    {
-      "path": "models.json",
-      "engine": "js",
+      "path": "routes/index.js",
+      "engine": "hpf",
       "input": "all"
     }
   ]
