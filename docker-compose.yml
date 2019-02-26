@@ -19,6 +19,7 @@ services:
     environment:
       NODE_ENV: development
     depends_on:
+      - redis
       - mongodb
     ports:
      - "3000:3000"
