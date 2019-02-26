@@ -1,7 +1,8 @@
 {
   "validatorPath": "hapify/validator.js",
-  "name": "HapiJS & Angular",
-  "description": "HapiJS v17 and Angular 7",
+  "name": "HapiJS",
+  "description": "API built with HapiJS v17",
+  "logo": "https://images.hapify.io/resize?nocrop=true&url=https://hpf-files-production-u67438.s3.amazonaws.com/img/979dc970-8cb3-41a3-b3ca-5441c068d48d-1692aaf8006.png&width=300",
   "project": "5c7019c998ebdb001075f1ed",
   "defaultFields": [
     {
@@ -43,52 +44,52 @@
   ],
   "templates": [
     {
-      "path": "api/routes/{model.hyphen}/create.js",
+      "path": "routes/{model.hyphen}/create.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/routes/{model.hyphen}/delete.js",
+      "path": "routes/{model.hyphen}/delete.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/routes/{model.hyphen}/inc.js",
+      "path": "routes/{model.hyphen}/inc.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/routes/{model.hyphen}/index.js",
+      "path": "routes/{model.hyphen}/index.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/routes/index.js",
+      "path": "routes/index.js",
       "engine": "hpf",
       "input": "all"
     },
     {
-      "path": "api/routes/{model.hyphen}/read.js",
+      "path": "routes/{model.hyphen}/read.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/routes/{model.hyphen}/search.js",
+      "path": "routes/{model.hyphen}/search.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/routes/{model.hyphen}/update.js",
+      "path": "routes/{model.hyphen}/update.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "api/cmd/setup/indexes.json",
+      "path": "cmd/setup/indexes.json",
       "engine": "js",
       "input": "all"
     },
     {
-      "path": "api/models.json",
+      "path": "models.json",
       "engine": "js",
       "input": "all"
     }
