@@ -11,7 +11,7 @@ const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
-const PopulationFactor = 50;
+const PopulationFactor = 150;
 const Lorem = require('./lorem');
 
 /**
