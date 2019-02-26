@@ -1,10 +1,7 @@
 'use strict';
 
-// Only for development env
-require('../commons/ensure-development');
-
-const ServerWrapper = require('../commons/server-wrapper');
-const Helpers = require('../commons/helpers')(__filename);
+const ServerWrapper = require('../inc/server-wrapper');
+const Helpers = require('../inc/helpers')(__filename);
 const Process = require('./process');
 
 ServerWrapper.init()

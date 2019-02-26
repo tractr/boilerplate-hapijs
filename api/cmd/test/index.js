@@ -1,12 +1,12 @@
 'use strict';
 
-const Helpers = require('../commons/helpers')(__filename);
+const Helpers = require('../inc/helpers')(__filename);
 
 /**
  * Used to dry-test the command launcher
  */
 
-const ServerWrapper = require('../commons/server-wrapper');
+const ServerWrapper = require('../inc/server-wrapper');
 
 ServerWrapper.init()
 	.then(server => {

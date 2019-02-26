@@ -1,7 +1,7 @@
 'use strict';
 
-const ServerWrapper = require('../commons/server-wrapper');
-const Helpers = require('../commons/helpers')(__filename);
+const ServerWrapper = require('../inc/server-wrapper');
+const Helpers = require('../inc/helpers')(__filename);
 const admin = require('./admin');
 
 ServerWrapper.init()

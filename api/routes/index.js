@@ -4,4 +4,8 @@
  * Export all routes.
  */
 
-module.exports = {};
+module.exports = {
+    Group: require('./group'),
+    Image: require('./image'),
+    User: require('./user'),
+};

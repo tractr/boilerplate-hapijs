@@ -2,7 +2,7 @@
 
 const Fs = require('fs');
 const MongoId = require('mongodb').ObjectId;
-const Helpers = require('../commons/helpers')(__filename);
+const Helpers = require('../inc/helpers')(__filename);
 const ModelsFilePath = `${__dirname}/../../models.json`;
 const Chain = [(p, fn) => p.then(fn), Promise.resolve()];
 const ModelsIds = {};

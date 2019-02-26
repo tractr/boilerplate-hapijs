@@ -1,7 +1,7 @@
 'use strict';
 
 const Fs = require('fs');
-const Helpers = require('../commons/helpers')(__filename);
+const Helpers = require('../inc/helpers')(__filename);
 const IndexesFilePath = `${__dirname}/indexes.json`;
 const Chain = [(p, fn) => p.then(fn), Promise.resolve()];
 
