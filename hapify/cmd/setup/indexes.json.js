@@ -62,52 +62,5 @@ function __model(out, model) {
 //--------------------------------------------------
 //  Output
 //--------------------------------------------------
-const _output = models.reduce(__model, {
-    ses_blocked_emails: {
-        blocked_emails: {
-            fields: {
-                email: 1,
-                end_timestamp: 1
-            }
-        }
-    },
-    assistant_coeff: {
-        assistant_coeff_unique: {
-            fields: {
-                input_field_name: 1,
-                input_field_value: 1,
-                output_field_name: 1,
-                output_field_values: 1
-            },
-            options: {
-                unique: true
-            }
-        },
-        assistant_coeff_input_field_name: {
-            fields: {
-                input_field_name: 1
-            }
-        },
-        assistant_coeff_input_field_value: {
-            fields: {
-                input_field_value: 1
-            }
-        },
-        assistant_coeff_output_field_name: {
-            fields: {
-                output_field_name: 1
-            }
-        },
-        assistant_coeff_output_field_values: {
-            fields: {
-                output_field_values: 1
-            }
-        },
-        assistant_coeff_coeff: {
-            fields: {
-                coeff: 1
-            }
-        }
-    }
-});
+const _output = models.reduce(__model, {});
 return JSON.stringify(_output, null, 4);
