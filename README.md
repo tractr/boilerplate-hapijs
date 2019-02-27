@@ -12,7 +12,7 @@ This boilerplate provides an API built with HapiJS, MongoDB and Docker.
 
 #### Option 1
 
-Clone and configure this boilerplate using command `hpf new --boilerplate tractr-hapijs`.
+Clone and configure this boilerplate using command `hpf new --boilerplate hapijs_tractr`.
 
 #### Option 2
 
