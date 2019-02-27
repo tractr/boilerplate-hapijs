@@ -48,6 +48,8 @@ To start the API, run this command
 docker-compose up api
 ```
 
+Now the API is available on `http://localhost:3000`.
+
 ## Documentation
 
 Once the API is started, you can access http://localhost:3000/docs to browse its documentation.
