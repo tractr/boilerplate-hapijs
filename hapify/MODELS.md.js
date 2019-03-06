@@ -6,16 +6,16 @@ const properties = [
 ];
 
 for (const model of models) {
-    md += `## ${model.names.wordsUpper}\n\n`;
+    md += `## ${model.names.capital}\n\n`;
     md += `### Fields\n\n`;
     for (const field of model.fields.list) {
-        md += `- ${field.names.wordsUpper}`;
+        md += `- ${field.names.capital}`;
         md += ` [*${field.type}`;
         if (field.type !== 'entity' && field.subtype) {
             md += `:${field.subtype}`;
         }
         if (field.type === 'entity' && field.model) {
-            md += `:${field.model.names.upperCamel}`;
+            md += `:${field.model.names.pascal}`;
         }
         md += `*]`;
         const p = properties.filter(p => !!field[p]);
@@ -27,7 +27,7 @@ for (const model of models) {
     md += `\n`;
     if (model.dependencies.list.length) {
         md += `### Dependencies\n\n`;
-        md += `${model.dependencies.list.map(d => d.names.wordsUpper).join(', ')}\n\n`;
+        md += `${model.dependencies.list.map(d => d.names.capital).join(', ')}\n\n`;
     }
 }
 

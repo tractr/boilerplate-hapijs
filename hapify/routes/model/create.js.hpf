@@ -161,7 +161,7 @@ function defaultValue(f) {
     else if (f.multiple) v = "[]";
     else if (f.type === "boolean") v = "false";
     else if (f.type === "string") {
-        if (f.names.underscore === 'role') v = "'user'";
+        if (f.names.snake === 'role') v = "'user'";
         else v = "''";
     }
     else if (f.type === "number") v = "0";

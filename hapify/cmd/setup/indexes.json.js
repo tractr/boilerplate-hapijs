@@ -8,7 +8,7 @@
  */
 function __model(out, model) {
 
-    const modelName = model.names.underscore;
+    const modelName = model.names.snake;
     const labels = {};
     let hasLabels = false;
 
@@ -26,7 +26,7 @@ function __model(out, model) {
             return p;
         }
 
-        const fieldName = field.names.underscore;
+        const fieldName = field.names.snake;
 
         if (field.label) {
             labels[fieldName] = 'text';

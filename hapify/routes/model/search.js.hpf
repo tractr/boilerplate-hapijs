@@ -238,7 +238,7 @@ module.exports = [
  
 <<< 
 function joiValidator(f) {
-    const prop = f.names.underscore;
+    const prop = f.names.snake;
     let v = "";
     
     if (f.type === "boolean") v = `${prop}: Joi.boolean(),`;
@@ -259,6 +259,6 @@ function joiValidator(f) {
 }
 function forbiddenKeys() {
     const field = root.fields.list.find((f) => f.searchable && f.ownership);
-    return field ? `.forbiddenKeys(['${field.names.underscore}'])` : "";
+    return field ? `.forbiddenKeys(['${field.names.snake}'])` : "";
 }
 >>>

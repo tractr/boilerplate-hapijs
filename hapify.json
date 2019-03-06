@@ -60,37 +60,37 @@
       "input": "all"
     },
     {
-      "path": "routes/{model.hyphen}/create.js",
+      "path": "routes/{kebab}/create.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "routes/{model.hyphen}/delete.js",
+      "path": "routes/{kebab}/delete.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "routes/{model.hyphen}/inc.js",
+      "path": "routes/{kebab}/inc.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "routes/{model.hyphen}/index.js",
+      "path": "routes/{kebab}/index.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "routes/{model.hyphen}/read.js",
+      "path": "routes/{kebab}/read.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "routes/{model.hyphen}/search.js",
+      "path": "routes/{kebab}/search.js",
       "engine": "hpf",
       "input": "one"
     },
     {
-      "path": "routes/{model.hyphen}/update.js",
+      "path": "routes/{kebab}/update.js",
       "engine": "hpf",
       "input": "one"
     },
