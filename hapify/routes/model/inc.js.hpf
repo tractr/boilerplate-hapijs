@@ -7,7 +7,7 @@
 module.exports = {
 <<? F ip>>
     projection: () => ({
-    <<? M pMPr>>
+    <<? M pMHd>>
         <<@ F /pr/ip f>>
         <<f a_a>>: true,
         <<@>>
