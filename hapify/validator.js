@@ -57,12 +57,12 @@ if (model.fields.filter((f) => f.multiple && f.type !== 'entity').length) {
 }
 
 // -----------------------------
-// Important fields
-if (model.fields.filter((f) => f.important && f.type !== 'entity').length) {
-    errors.push('[Routes] Important fields can only be entities references');
+// Embedded fields
+if (model.fields.filter((f) => f.embedded && f.type !== 'entity').length) {
+    errors.push('[Routes] Embedded fields can only be entities references');
 }
-if (model.fields.filter((f) => f.important && f.hidden).length) {
-    errors.push('[Routes] Important fields cannot be private');
+if (model.fields.filter((f) => f.embedded && f.hidden).length) {
+    errors.push('[Routes] Embedded fields cannot be private');
 }
 
 // -----------------------------

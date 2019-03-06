@@ -10,7 +10,7 @@ const MongoDB = require('mongodb');
 const <<M AA>>Projection = require('./inc').projection;
 <<?>>
 
-<<# Includes projections for all important (forced non-private) dependencies that have private fields >>
+<<# Includes projections for all embedded (forced non-private) dependencies that have private fields >>
 <<@ D im d>>
     <<? d.f ip>>
 const <<d AA>>Projection = require('../<<d a-a>>/inc').projection;
