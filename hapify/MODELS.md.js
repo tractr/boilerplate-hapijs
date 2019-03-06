@@ -2,7 +2,7 @@ let md = `# Models definition\n\n`;
 
 const properties = [
     "primary", "unique", "label", "nullable", "multiple", "important",
-    "searchable", "sortable", "isPrivate", "internal", "restricted", "ownership"
+    "searchable", "sortable", "hidden", "internal", "restricted", "ownership"
 ];
 
 for (const model of models) {

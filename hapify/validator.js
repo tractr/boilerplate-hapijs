@@ -33,7 +33,7 @@ if (primary) {
     if (primary.multiple) {
         errors.push('[Routes] Primary key cannot be multiple');
     }
-    if (primary.isPrivate) {
+    if (primary.hidden) {
         errors.push('[Routes] Primary key cannot be private');
     }
     if (primary.searchable) {
@@ -61,13 +61,13 @@ if (model.fields.filter((f) => f.multiple && f.type !== 'entity').length) {
 if (model.fields.filter((f) => f.important && f.type !== 'entity').length) {
     errors.push('[Routes] Important fields can only be entities references');
 }
-if (model.fields.filter((f) => f.important && f.isPrivate).length) {
+if (model.fields.filter((f) => f.important && f.hidden).length) {
     errors.push('[Routes] Important fields cannot be private');
 }
 
 // -----------------------------
 // Password fields
-if (model.fields.filter((f) => f.type === 'string' && f.subtype === 'password' && !f.isPrivate).length) {
+if (model.fields.filter((f) => f.type === 'string' && f.subtype === 'password' && !f.hidden).length) {
     warnings.push('[Routes] Passwords should be private');
 }
 

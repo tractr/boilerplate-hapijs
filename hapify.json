@@ -19,7 +19,7 @@
       "important": false,
       "searchable": false,
       "sortable": false,
-      "isPrivate": false,
+      "hidden": false,
       "internal": true,
       "restricted": false,
       "ownership": true
@@ -37,7 +37,7 @@
       "important": false,
       "searchable": false,
       "sortable": true,
-      "isPrivate": false,
+      "hidden": false,
       "internal": true,
       "restricted": false,
       "ownership": false
