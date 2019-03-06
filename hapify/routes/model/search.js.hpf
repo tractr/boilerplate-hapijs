@@ -11,7 +11,7 @@ const <<M AA>>Projection = require('./inc').projection;
 <<?>>
 
 <<# Includes projections for all embedded (forced non-private) dependencies that have private fields >>
-<<@ D im d>>
+<<@ D em d>>
     <<? d.f ip>>
 const <<d AA>>Projection = require('../<<d a-a>>/inc').projection;
     <<?>>
@@ -135,12 +135,12 @@ const searchHandler = async (request) => {
     const results = await cursor.toArray();
     const total = await cursor.count();
 
-<<? F tE*im>>
+<<? F tE*em>>
  
     // Convert reference fields
     await request.server.utils.Entity
         .populateList(request.server.db, results, [
-    <<@ F tE*im r>>
+    <<@ F tE*em r>>
             {
                 col: '<<r.m a_a>>',
                 prop: '<<r a_a>>',
