@@ -105,10 +105,10 @@ const handler = async (request, h) => {
  
     // @hook create:after-insert:<<M a-a>>
 
-<<? F ip>>
+<<? F hd>>
  
     // Delete private properties
-    <<@ F ip p>>
+    <<@ F hd p>>
     delete <<M aA>>.<<p a_a>>;
     <<@>>
 <<?>>
