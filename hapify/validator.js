@@ -7,86 +7,104 @@ const warnings = [];
 // Model object is injected as "model"
 
 // ###########################################################
+//  GLOBAL
+// ###########################################################
+// -----------------------------
+// File fields
+if (model.fields.filter((f) => f.type === 'file').length) {
+    errors.push('File fields are not supported yet by this boilerplate');
+}
+// Object fields
+if (model.fields.filter((f) => f.type === 'object').length) {
+    errors.push('Object fields are not supported yet by this boilerplate');
+}
+// URL fields
+if (model.fields.filter((f) => f.type === 'string' && f.subtype === 'url').length) {
+    warnings.push('URL string is not supported yet and will be handle as default string');
+}
+
+
+// ###########################################################
 //  ROUTES
 // ###########################################################
 // -----------------------------
 // Primary key
 const primaries = model.fields.filter((f) => f.primary);
 if (primaries.length > 1) {
-    errors.push('[Routes] Only one field can be primary');
+    errors.push('Only one field can be primary');
 }
 const primary = primaries[0];
 if (primary) {
 
     if (primary.name !== '_id') {
-        errors.push('[Routes] Primary key must be called "_id"');
+        errors.push('Primary key must be called "_id"');
     }
     if (primary.type !== 'string') {
-        errors.push('[Routes] Primary key must be a string');
+        errors.push('Primary key must be a string');
     }
     if (!primary.internal) {
-        errors.push('[Routes] Primary key must be a internal');
+        errors.push('Primary key must be a internal');
     }
     if (primary.nullable) {
-        errors.push('[Routes] Primary key cannot be nullable');
+        errors.push('Primary key cannot be nullable');
     }
     if (primary.multiple) {
-        errors.push('[Routes] Primary key cannot be multiple');
+        errors.push('Primary key cannot be multiple');
     }
     if (primary.hidden) {
-        errors.push('[Routes] Primary key cannot be private');
+        errors.push('Primary key cannot be hidden');
     }
     if (primary.searchable) {
-        errors.push('[Routes] Primary key cannot be searchable');
+        errors.push('Primary key cannot be searchable');
     }
 
     if (primary.unique) {
-        warnings.push('[Routes] Primary key as unique will be ignored');
+        warnings.push('Primary key as unique will be ignored');
     }
     if (primary.label) {
-        warnings.push('[Routes] Primary key as label will be ignored');
+        warnings.push('Primary key as label will be ignored');
     }
 } else {
-    errors.push('[Routes] Primary key is required');
+    errors.push('Primary key is required');
 }
 
 // -----------------------------
 // Multiple fields
 if (model.fields.filter((f) => f.multiple && f.type !== 'entity').length) {
-    errors.push('[Routes] Multiple fields can only be entities references');
+    errors.push('Multiple fields can only be entities references');
 }
 
 // -----------------------------
 // Embedded fields
 if (model.fields.filter((f) => f.embedded && f.type !== 'entity').length) {
-    errors.push('[Routes] Embedded fields can only be entities references');
+    errors.push('Embedded fields can only be entities references');
 }
 if (model.fields.filter((f) => f.embedded && f.hidden).length) {
-    errors.push('[Routes] Embedded fields cannot be private');
+    errors.push('Embedded fields cannot be hidden');
 }
 
 // -----------------------------
 // Password fields
 if (model.fields.filter((f) => f.type === 'string' && f.subtype === 'password' && !f.hidden).length) {
-    warnings.push('[Routes] Passwords should be private');
+    warnings.push('Passwords should be hidden');
 }
 
 // -----------------------------
 // Restricted fields
 if (model.fields.filter((f) => f.restricted && f.internal).length) {
-    warnings.push('[Routes] A fields cannot be internal and restricted');
+    warnings.push('A fields cannot be internal and restricted');
 }
 
 // -----------------------------
 // Owner fields
 if (model.fields.filter((f) => f.ownership).length > 1) {
-    errors.push('[Routes] Only one field can be ownership');
+    errors.push('Only one field can be ownership');
 }
 if (model.fields.filter((f) => f.ownership && f.type !== 'entity' && !f.primary).length > 0) {
-    errors.push('[Routes] Ownership field must be an entity');
+    errors.push('Ownership field must be an entity');
 }
 if (model.fields.filter((f) => f.ownership && !f.primary).length && model.accesses.create === 'guest') {
-    errors.push('[Routes] Model with ownership cannot be created as guest');
+    errors.push('Model with ownership cannot be created as guest');
 }
 let hasOwnerAccess = false;
 for (const action in model.accesses) {
@@ -96,26 +114,13 @@ for (const action in model.accesses) {
     }
 }
 if (hasOwnerAccess && model.fields.filter((f) => f.ownership).length === 0) {
-    errors.push('[Routes] Model with owner access must have a ownership field');
+    errors.push('Model with owner access must have a ownership field');
 }
 
 // -----------------------------
 // Accesses
 if ((model.accesses.search === 'owner' || model.accesses.count === 'owner') && model.accesses.search !== model.accesses.count) {
-    errors.push('[Routes] Search and count actions access must be both "owner" or none.');
-}
-
-// ###########################################################
-//  TESTS
-// ###########################################################
-// -----------------------------
-// Nullable fields
-if (model.fields.filter((f) => f.nullable && f.internal && f.searchable).length) {
-    warnings.push('[Tests] Nullable, internal and searchable fields will cause testing errors due to default value set as null.');
-}
-// Restrcited VS admin create
-if (model.accesses.create === 'admin' && model.fields.filter((f) => f.restricted).length) {
-    warnings.push('[Tests] Models, created by admins, with restricted fields will cause testing errors.');
+    errors.push('Search and count actions access must be both "owner" or none.');
 }
 
 // ###########################################################
@@ -124,12 +129,12 @@ if (model.accesses.create === 'admin' && model.fields.filter((f) => f.restricted
 // -----------------------------
 // Multiple fields
 if (model.fields.filter((f) => f.label && f.type !== 'string').length) {
-    errors.push('[MongoDB] Label fields can only be string');
+    errors.push('Label fields can only be string');
 }
 // -----------------------------
 // Unique fields
 if (model.fields.filter((f) => f.unique && f.label).length) {
-    warnings.push('[MongoDB] Index for label will not be unique');
+    warnings.push('Index for label will not be unique');
 }
 
 
