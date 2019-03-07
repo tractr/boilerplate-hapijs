@@ -31,6 +31,10 @@ This API should be used with docker and docker-compose.
 Run installation scripts to create MongoDB indexes and insert an admin:
 
 ```bash
+docker-compose run --rm api npm install
+```
+
+```bash
 docker-compose run --rm api npm run cmd setup
 ```
 
