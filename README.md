@@ -1,9 +1,9 @@
 # HapiJS Boilerplate
 
-## Hapify
+#### Hapify
 This boilerplate is meant to be used with Hapify. To get more info about Hapify setup, please refer to https://www.hapify.io/get-started.
 
-## Stack
+#### Stack
 
 This boilerplate provides an API built with HapiJS, MongoDB and Docker.
 
