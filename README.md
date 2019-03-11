@@ -10,20 +10,20 @@ This boilerplate provides an API built with HapiJS, MongoDB and Docker.
 
 ## Boilerplate
 
-### Clone repository
+### 1. Clone repository
 
 - **Option 1**: Clone and configure this boilerplate using command `hpf new --boilerplate hapijs_tractr`.
 - **Option 2**: You can clone this repository and change the project id in file `hapify.json` by running command `hpf use`.
 
-### Generate code
+### 2. Generate code
 
 Then you need to generate code from your Hapify project using `hpf generate`.
 
-## Start API
+## 3. Run the API
 
 This API should be used with docker and docker-compose.
 
-### 1. Installation
+### 3.1 Installation
 
 Run installation scripts to create MongoDB indexes and insert an admin:
 
@@ -41,7 +41,7 @@ docker-compose run --rm api npm run cmd insert-admin
 
 To login of the admin user is defined in file `cmd/insert-admin/admin.js`
 
-### 2. Start server
+### 3.2 Start server
 
 To start the API, run this command
 
@@ -51,7 +51,7 @@ docker-compose up api
 
 Now the API is available on `http://localhost:3000`.
 
-### 3. Insert development data
+### 3.3 Insert development data
 
 To insert randomized data into the database, run this command
 
