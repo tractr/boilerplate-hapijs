@@ -1,14 +1,13 @@
 # HapiJS Boilerplate
 
-This boilerplate is meant to be used with Hapify.
-
-To get more info about Hapify setup, please refer to https://www.hapify.io/get-started.
+## Hapify
+This boilerplate is meant to be used with Hapify. To get more info about Hapify setup, please refer to https://www.hapify.io/get-started.
 
 ## Stack
 
 This boilerplate provides an API built with HapiJS, MongoDB and Docker.
 
-## Boilerplate
+## Get Started
 
 ### 1. Clone repository
 
@@ -19,11 +18,11 @@ This boilerplate provides an API built with HapiJS, MongoDB and Docker.
 
 Then you need to generate code from your Hapify project using `hpf generate`.
 
-## 3. Run the API
+### 3. Run the API
 
 This API should be used with docker and docker-compose.
 
-### 3.1 Installation
+#### 3.1 Installation
 
 Run installation scripts to create MongoDB indexes and insert an admin:
 
@@ -41,7 +40,7 @@ docker-compose run --rm api npm run cmd insert-admin
 
 To login of the admin user is defined in file `cmd/insert-admin/admin.js`
 
-### 3.2 Start server
+#### 3.2 Start server
 
 To start the API, run this command
 
@@ -51,7 +50,7 @@ docker-compose up api
 
 Now the API is available on `http://localhost:3000`.
 
-### 3.3 Insert development data
+#### 3.3 Insert development data
 
 To insert randomized data into the database, run this command
 
@@ -59,16 +58,19 @@ To insert randomized data into the database, run this command
 docker-compose run --rm api npm run cmd populate
 ```
 
-## Documentation
-
-Once the API is started, you can access http://localhost:3000/docs to browse the documentation.
-
-## Updates
+#### 3.4 Updates
 
 If you need to update you data models and re-generate code (using [Hapify](https://www.hapify.io/), you should:
 
 - 1. Run this command `docker-compose run --rm api npm run cmd setup` to update the MongoDb indexes.
 - 2. Restart the API.
+
+Please refer to [Hapify Best Practices](https://www.hapify.io/documentation/best-practices) to learn more about Git patches within Hapify Context.
+
+
+## Documentation
+
+Once the API is started, you can access http://localhost:3000/docs to browse the documentation.
 
 
 ## Advanced Integration
@@ -77,6 +79,7 @@ This boilerplate includes the following modules
 
 - user sessions
 - users accesses management
+
 
 ## Models interpretation
 
