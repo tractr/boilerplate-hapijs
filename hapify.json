@@ -22,7 +22,7 @@
       "hidden": false,
       "internal": true,
       "restricted": false,
-      "ownership": true
+      "ownership": false
     },
     {
       "name": "created at",
