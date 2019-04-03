@@ -1,6 +1,6 @@
 node_modules
 
-# Generated files (to be remove after generation)
+# Generated files. Remove these lines after generation
 routes/**
 cmd/setup/indexes.json
 models.json
