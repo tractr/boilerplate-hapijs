@@ -18,6 +18,8 @@ This boilerplate provides an API built with HapiJS, MongoDB and Docker.
 
 Then you need to generate code from your Hapify project using `hpf generate`.
 
+**Important**: For development purpose, generated files are ignored in the `.gitignore`. You should edit this file and remove the last lines before committing.
+
 ### 3. Run the API
 
 This API should be used with docker and docker-compose.
