@@ -76,7 +76,7 @@ const handler = async (request, h) => {
     let result;
     try {
         result = await request.server.db.collection('<<M a_a>>')
-            .findOneAndUpdate({ <<P a_a>> }, updates, options);
+            .updateOne({ <<P a_a>> }, updates, options);
     }
     catch (e) {
         // Handle duplicated key for unique indexes
@@ -86,10 +86,10 @@ const handler = async (request, h) => {
     }
 <<??>>
     const result = await request.server.db.collection('<<M a_a>>')
-        .findOneAndUpdate({ <<P a_a>> }, updates, options);
+        .updateOne({ <<P a_a>> }, updates, options);
 <<?>>
  
-    if (result.value === null) {
+    if (!result.matchedCount) {
         throw Boom.notFound('<<M A>> not found');
     }
  
@@ -161,7 +161,9 @@ function joiValidator(f) {
         if (f.subtype === "latitude") out += ".min(-90).max(90)";
         else if (f.subtype === "longitude") out += ".min(-180).max(180)";
     }
-    if (f.type === "entity") out +=  "string().length(24).hex()";
+    else if (f.type === "entity") out +=  "string().length(24).hex()";
+    else if (f.type === "object") out +=  "object()";
+    else out +=  "any()";
     
     /* Multiple and nullable */
     if (f.multiple) {

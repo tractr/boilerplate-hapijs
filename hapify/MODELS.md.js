@@ -6,10 +6,10 @@ const properties = [
 ];
 
 for (const model of models) {
-    md += `## ${model.names.capital}\n\n`;
+    md += `## ${model.names.pascal}\n\n`;
     md += `### Fields\n\n`;
     for (const field of model.fields.list) {
-        md += `- ${field.names.capital}`;
+        md += `- ${field.names.snake}`;
         md += ` [*${field.type}`;
         if (field.type !== 'entity' && field.subtype) {
             md += `:${field.subtype}`;
@@ -27,7 +27,7 @@ for (const model of models) {
     md += `\n`;
     if (model.dependencies.list.length) {
         md += `### Dependencies\n\n`;
-        md += `${model.dependencies.list.map(d => d.names.capital).join(', ')}\n\n`;
+        md += `${model.dependencies.list.map(d => d.names.pascal).join(', ')}\n\n`;
     }
 }
 

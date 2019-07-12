@@ -166,7 +166,8 @@ function defaultValue(f) {
     }
     else if (f.type === "number") v = "0";
     else if (f.type === "datetime") v = "Date.now()";
-    
+    else if (f.type === "object") v = "{}";
+
     return v;
 }
 function joiValidator(f) {
@@ -185,6 +186,7 @@ function joiValidator(f) {
         else if (f.subtype === "longitude") out += ".min(-180).max(180)";
     }
     else if (f.type === "entity") out +=  "string().length(24).hex()";
+    else if (f.type === "object") out +=  "object()";
     else out +=  "any()";
     
     /* Multiple and nullable */
