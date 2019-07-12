@@ -14,10 +14,6 @@ const warnings = [];
 if (model.fields.filter((f) => f.type === 'file').length) {
     errors.push('File fields are not supported yet by this boilerplate');
 }
-// Object fields
-if (model.fields.filter((f) => f.type === 'object').length) {
-    errors.push('Object fields are not supported yet by this boilerplate');
-}
 // URL fields
 if (model.fields.filter((f) => f.type === 'string' && f.subtype === 'url').length) {
     warnings.push('URL string is not supported yet and will be handle as default string');
@@ -118,6 +114,12 @@ if (hasOwnerAccess && model.fields.filter((f) => f.ownership).length === 0) {
 }
 
 // -----------------------------
+// Object fields
+if (model.fields.filter((f) => f.type === 'object' && (f.searchable || f.sortable)).length) {
+    errors.push('Object cannot be searchable nor sortable');
+}
+
+// -----------------------------
 // Accesses
 if ((model.accesses.search === 'owner' || model.accesses.count === 'owner') && model.accesses.search !== model.accesses.count) {
     errors.push('Search and count actions access must be both "owner" or none.');
@@ -131,12 +133,6 @@ if ((model.accesses.search === 'owner' || model.accesses.count === 'owner') && m
 if (model.fields.filter((f) => f.label && f.type !== 'string').length) {
     errors.push('Label fields can only be string');
 }
-// -----------------------------
-// Unique fields
-if (model.fields.filter((f) => f.unique && f.label).length) {
-    warnings.push('Index for label will not be unique');
-}
-
 
 return {
     errors,
