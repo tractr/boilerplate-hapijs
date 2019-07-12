@@ -30,6 +30,10 @@
     "update": "./node_modules/npm-check/bin/cli.js -u",
     "lint": "./node_modules/.bin/prettier --write '**/*.js'"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tractr/boilerplate-hapijs"
+  },
   "author": "Tractr <hapify@tractr.net>",
   "license": "MIT",
   "engines": {
