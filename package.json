@@ -5,24 +5,24 @@
   "main": "index.js",
   "dependencies": {
     "array-unique": "^0.3.2",
-    "bcrypt": "^3.0.4",
-    "boom": "^7.1.1",
-    "catbox-redis": "^4.0.0",
-    "good": "^8.1.1",
+    "bcrypt": "^3.0.6",
+    "boom": "^7.3.0",
+    "catbox-redis": "^4.2.4",
+    "good": "^8.1.2",
     "good-console": "^8.0.0",
-    "good-squeeze": "^5.0.1",
-    "hapi": "^17.2.0",
-    "hapi-auth-cookie": "^8.1.0",
-    "inert": "^5.1.0",
-    "joi": "^13.1.1",
-    "lout": "^11.1.0",
-    "mongodb": "^3.1.10",
+    "good-squeeze": "^5.1.0",
+    "hapi": "^18.1.0",
+    "hapi-auth-cookie": "^9.1.0",
+    "inert": "^5.1.2",
+    "joi": "^14.3.1",
+    "lout": "^11.2.3",
+    "mongodb": "^3.1.13",
     "randomstring": "^1.1.5",
-    "vision": "^5.4.0"
+    "vision": "^5.4.4"
   },
   "devDependencies": {
-    "npm-check": "^5.4.0",
-    "prettier": "^1.14.3"
+    "npm-check": "^5.9.0",
+    "prettier": "^1.17.0"
   },
   "scripts": {
     "start": "node index.js",
