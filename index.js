@@ -1,4 +1,5 @@
 'use strict';
+/* eslint no-console: 0 */
 
 const Configs = require('./configs');
 const Initialize = require('./initialize');

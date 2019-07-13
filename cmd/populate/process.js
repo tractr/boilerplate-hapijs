@@ -86,8 +86,9 @@ const generateField = field => {
 		if (field.subtype === 'longitude') return randomLongitude();
 
 		return randomNumber();
-	} else if (field.type === 'datetime') return Date.now() + randomNumber(-2, 2) * DAY;
-	else if (field.type === 'string') {
+	} else if (field.type === 'datetime') {
+		return Date.now() + randomNumber(-2, 2) * DAY;
+	} else if (field.type === 'string') {
 		if (field.subtype === 'email') {
 			const name = generateString(true)
 				.toLowerCase()
@@ -107,8 +108,13 @@ const generateField = field => {
 		}
 
 		return generateString();
-	} else if (field.type === 'boolean') return pickOne([false, true]);
-	else if (field.type === 'entity') return TempId;
+	} else if (field.type === 'boolean') {
+		return pickOne([false, true]);
+	} else if (field.type === 'object') {
+		return field.multiple
+			? [{ foo: generateString(), bar: randomNumber() }, { foo: generateString(), bar: randomNumber() }]
+			: { foo: generateString(), bar: randomNumber() };
+	} else if (field.type === 'entity') return TempId;
 
 	return null;
 };
@@ -198,8 +204,15 @@ module.exports = async server => {
 			for (let i = 0; i < total; i++) {
 				insert.push(generateItem(m));
 			}
+			Helpers.log(server)(`Inserting ${total} documents in ${m.collection}`);
 
-			return () => server.db.collection(m.collection).insertMany(insert);
+			return () =>
+				server.db
+					.collection(m.collection)
+					.insertMany(insert)
+					.catch(e => {
+						Helpers.error(server)(`Error while inserting ${m.collection}: ${e.message}`);
+					});
 		})
 		.reduce(...Chain);
 

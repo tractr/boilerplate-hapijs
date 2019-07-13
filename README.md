@@ -40,7 +40,13 @@ docker-compose run --rm api npm run cmd setup
 docker-compose run --rm api npm run cmd insert-admin
 ```
 
-To login of the admin user is defined in file `cmd/insert-admin/admin.js`
+Or run all in one command:
+
+```bash
+docker-compose run --rm api bash -c "npm install && npm run cmd setup && npm run cmd insert-admin"
+```
+
+The login and password of the admin user is defined in file `cmd/insert-admin/admin.js` (`admin@example.com` / `admin`).
 
 #### 3.2 Start server
 

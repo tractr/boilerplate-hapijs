@@ -27,8 +27,12 @@ module.exports = {
 		}
 	},
 	cache: {
-		name: 'main_cache',
-		engine: CatboxRedis,
-		host: 'redis'
+		provider: {
+			constructor: CatboxRedis,
+			options: {
+				host: 'redis'
+			}
+		},
+		name: 'main_cache'
 	}
 };

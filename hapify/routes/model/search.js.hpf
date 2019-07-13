@@ -254,7 +254,10 @@ function joiValidator(f) {
             v = `${prop}: ${validator},`;
         }
     }
-    
+    else {
+        v = `${prop}: Joi.any(),`;
+    }
+
     return v;
 }
 function forbiddenKeys() {

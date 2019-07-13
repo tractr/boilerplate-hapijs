@@ -11,7 +11,7 @@ services:
   #--------------------------------------------------
   # NodeJS API
   api:
-    image: node:9.11
+    image: node:11.10
     working_dir: /app
     command: bash -c "npm install && npm start"
 #    image: api
