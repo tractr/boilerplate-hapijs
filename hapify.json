@@ -3,7 +3,7 @@
   "validatorPath": "hapify/validator.js",
   "name": "HapiJS",
   "description": "API built with HapiJS v17",
-  "logo": "https://hapijs.com/public/img/hapi.svg",
+  "logo": "https://files-tractr.s3.ca-central-1.amazonaws.com/assets/hapi.svg",
   "project": "5cebe3af0f12bb001039e064",
   "defaultFields": [
     {
