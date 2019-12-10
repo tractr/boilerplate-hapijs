@@ -102,7 +102,7 @@ const getCursor = (request) => {
  
     // Use regexp for <<f a>>
     if (filter.<<f a_a>>) {
-        filter.<<f a_a>> = new RegExp(filter.<<f a_a>>.replace(/[-[\]{}()*+?.,\\\\^$|#\s]/g, '\\\\$&'), 'i');
+        filter.<<f a_a>> = new RegExp(filter.<<f a_a>>.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
     }
     <<?>>
 <<@>>
