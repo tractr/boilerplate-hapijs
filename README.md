@@ -66,7 +66,14 @@ To insert randomized data into the database, run this command
 docker-compose run --rm api npm run cmd populate
 ```
 
-#### 3.4 Updates
+#### 3.4 Use a front-end boilerplate
+
+This boilerplate can be used with those front-end boilerplates:
+
+- [Admin dashboard built with Angular](https://github.com/Tractr/boilerplate-ngx-dashboard)
+- [Components library built with Angular](https://github.com/Tractr/boilerplate-ngx-components)
+
+#### 3.5 Updates
 
 If you need to update you data models and re-generate code (using [Hapify](https://www.hapify.io/), you should:
 
@@ -85,13 +92,13 @@ Once the API is started, you can access http://localhost:3000/docs to browse the
 
 This boilerplate includes the following modules
 
-- user sessions
+- user sessions (sessions are stored in Redis)
 - users accesses management
 
 
 ## Models interpretation
 
-This boilerplate interpretes [Hapify](https://www.hapify.io/) data-models fields properties as described bellow:
+This boilerplate interprets [Hapify](https://www.hapify.io/) data-models fields properties as described bellow:
 
 - **Primary**: Represent the MongoDB Id.
 - **Unique**: Creates an unique index for MongoDB and throw a 409 in case of conflict.
