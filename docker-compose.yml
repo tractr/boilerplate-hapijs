@@ -11,9 +11,9 @@ services:
   #--------------------------------------------------
   # NodeJS API
   api:
-    image: node:11.10
+    image: node:13.10
     working_dir: /app
-    command: bash -c "npm install && npm start"
+    command: npm start
     environment:
       NODE_ENV: development
     depends_on:
