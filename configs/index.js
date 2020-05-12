@@ -2,6 +2,7 @@
 
 module.exports = {
 	Database: require('./database'),
+	Geocoder: require('./geocoder'),
 	Logging: require('./logging'),
 	Mailjet: require('./mailjet'),
 	Server: require('./server'),

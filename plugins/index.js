@@ -23,6 +23,13 @@ const plugins = [
 	},
 	// @plugin mailjet:end
 
+	// @plugin geocoder:start
+	{
+		plugin: require('./geocoder'),
+		options: Configs.Geocoder
+	},
+	// @plugin geocoder:end
+
 	// @plugin session:start
 	require('hapi-auth-cookie'),
 	{
