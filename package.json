@@ -17,10 +17,14 @@
     "bcrypt": "^3.0.6",
     "hapi-auth-cookie": "^9.1.0",
     "lout": "^11.2.3",
+    "mime": "^2.4.5",
+    "minio": "^7.0.16",
     "mongodb": "^3.1.13",
     "node-geocoder": "^3.27.0",
     "node-mailjet": "^3.3.1",
-    "randomstring": "^1.1.5"
+    "node-uuid": "^1.4.8",
+    "randomstring": "^1.1.5",
+    "request-promise-native": "^1.0.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -48,7 +52,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged --pattern \"**/*.js\""
     }
   }
 }

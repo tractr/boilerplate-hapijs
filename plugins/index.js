@@ -30,6 +30,13 @@ const plugins = [
 	},
 	// @plugin geocoder:end
 
+	// @plugin s3:start
+	{
+		plugin: require('./s3'),
+		options: Configs.S3
+	},
+	// @plugin s3:end
+
 	// @plugin session:start
 	require('hapi-auth-cookie'),
 	{

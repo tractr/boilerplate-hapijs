@@ -2,13 +2,12 @@
 
 const ServerWrapper = require('../inc/server-wrapper');
 const Helpers = require('../inc/helpers')(__filename);
-const DatabaseSetup = require('./database');
-const S3 = require('./s3');
 
 ServerWrapper.init()
-	.then(DatabaseSetup)
-	.then(S3)
-	.then(server => {
-		Helpers.logAndClose(server)('Did finished setup.');
+	.then(async server => {
+		// Run service
+		const total = await server.s3.cleanTempFiles();
+
+		Helpers.logAndClose(server)(`Did delete ${total} temporary files from S3.`);
 	})
 	.catch(Helpers.errorAndClose());
