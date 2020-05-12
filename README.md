@@ -94,6 +94,9 @@ This boilerplate includes the following modules
 
 - user sessions (sessions are stored in Redis)
 - users accesses management
+- file storage with S3 (Minio for local)
+- Mailjet email sender
+- Geo-coding and reverse geo-coding service
 
 
 ## Models interpretation
