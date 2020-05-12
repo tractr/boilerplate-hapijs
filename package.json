@@ -22,6 +22,7 @@
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
     "husky": "^4.2.5",
     "npm-check": "^5.9.2",
     "prettier": "^1.17.0",
@@ -44,6 +45,7 @@
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "pretty-quick --staged"
     }
   }
