@@ -1,7 +1,7 @@
 'use strict';
 /* eslint no-console: 0 */
 
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const Path = require('path');
 const SECOND = 1000;
 

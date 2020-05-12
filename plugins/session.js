@@ -33,8 +33,8 @@
  *
  */
 
-const Joi = require('joi');
-const Boom = require('boom');
+const Joi = require('@hapi/joi');
+const Boom = require('@hapi/boom');
 const MongoDB = require('mongodb');
 const RandomString = require('randomstring');
 

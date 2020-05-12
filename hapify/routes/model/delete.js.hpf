@@ -4,8 +4,8 @@
  * Delete <<M a>>
  */
  
-const Joi = require('joi');
-const Boom = require('boom');
+const Joi = require('@hapi/joi');
+const Boom = require('@hapi/boom');
 const MongoDB = require('mongodb');
 <<? Ad ow>>
 const Pres = require('../../pres');

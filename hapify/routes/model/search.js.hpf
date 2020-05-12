@@ -4,7 +4,7 @@
  * Search & count <<M a>>
  */
  
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const MongoDB = require('mongodb');
 <<? F hd>>
 const <<M AA>>Projection = require('./inc').projection;

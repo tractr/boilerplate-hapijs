@@ -1,6 +1,6 @@
 'use strict';
 
-const CatboxRedis = require('catbox-redis');
+const CatboxRedis = require('@hapi/catbox-redis');
 
 const SECOND = 1000;
 

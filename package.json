@@ -6,22 +6,22 @@
   "dependencies": {
     "array-unique": "^0.3.2",
     "bcrypt": "^3.0.6",
-    "boom": "^7.3.0",
-    "catbox-redis": "^4.2.4",
-    "good": "^8.1.2",
-    "good-console": "^8.0.0",
-    "good-squeeze": "^5.1.0",
-    "hapi": "^18.1.0",
+    "@hapi/boom": "^7.4.11",
+    "@hapi/catbox-redis": "^5.0.5",
+    "@hapi/good": "^8.2.4",
+    "@hapi/good-console": "^8.1.2",
+    "@hapi/good-squeeze": "^5.2.1",
+    "@hapi/hapi": "^18.1.0",
     "hapi-auth-cookie": "^9.1.0",
-    "inert": "^5.1.2",
-    "joi": "^14.3.1",
+    "@hapi/inert": "^5.2.2",
+    "@hapi/joi": "^14.5.0",
     "lout": "^11.2.3",
     "mongodb": "^3.1.13",
     "randomstring": "^1.1.5",
-    "vision": "^5.4.4"
+    "@hapi/vision": "^5.5.4"
   },
   "devDependencies": {
-    "npm-check": "^5.9.0",
+    "npm-check": "^5.9.2",
     "prettier": "^1.17.0"
   },
   "scripts": {

@@ -5,7 +5,7 @@ const Configs = require('../configs');
 const plugins = [
 	// @plugin logging:start
 	{
-		plugin: require('good'),
+		plugin: require('@hapi/good'),
 		options: Configs.Logging
 	},
 	// @plugin logging:end
@@ -32,8 +32,8 @@ const plugins = [
 ];
 
 if (Configs.Server.app.documentation.enable) {
-	plugins.push(require('vision'));
-	plugins.push(require('inert'));
+	plugins.push(require('@hapi/vision'));
+	plugins.push(require('@hapi/inert'));
 	plugins.push(require('lout'));
 }
 

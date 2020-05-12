@@ -3,7 +3,7 @@
 /**
  * This plugin adds a method to the request is coming from an admin context or not
  */
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 const OptionsSchema = Joi.object({
 	prefix: Joi.string().default(''),
