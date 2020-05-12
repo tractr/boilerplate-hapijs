@@ -21,8 +21,10 @@
     "@hapi/vision": "^5.5.4"
   },
   "devDependencies": {
+    "husky": "^4.2.5",
     "npm-check": "^5.9.2",
-    "prettier": "^1.17.0"
+    "prettier": "^1.17.0",
+    "pretty-quick": "^2.0.1"
   },
   "scripts": {
     "start": "node index.js",
@@ -38,5 +40,10 @@
   "license": "MIT",
   "engines": {
     "node": ">=9.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
