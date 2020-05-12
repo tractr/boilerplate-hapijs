@@ -100,5 +100,5 @@ exports.plugin = {
 	register,
 	name: 'mailjet',
 	version: '1.0.0',
-	description: 'Plugin for Mailjet'
+	description: 'Plugin for sending emails'
 };
