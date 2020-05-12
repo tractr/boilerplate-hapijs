@@ -78,7 +78,10 @@ const register = async (server, options) => {
 				validate: {
 					payload: {
 						old_password: Joi.string().required(),
-						new_password: Joi.string().trim().min(6).required()
+						new_password: Joi.string()
+							.trim()
+							.min(6)
+							.required()
 					}
 				},
 				description: "Route to change the user's password",
