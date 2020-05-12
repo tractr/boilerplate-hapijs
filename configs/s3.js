@@ -11,7 +11,7 @@ module.exports = {
 		useSSL: false,
 		port: 9000
 	},
-	bucketName: 'hapijs-files',
+	bucketName: 'app-files',
 	postUrl: 'http://localhost:9000',
 	storagePrefix: null,
 	mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'audio/mp3'],
