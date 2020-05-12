@@ -70,6 +70,49 @@ const register = async (server, options) => {
 
 				return h.response(sessionData).code(201);
 			}
+		},
+		{
+			method: 'PATCH',
+			path: `${settings.prefix}/password/change`,
+			config: {
+				validate: {
+					payload: {
+						old_password: Joi.string().required(),
+						new_password: Joi.string().trim().min(6).required()
+					}
+				},
+				description: "Route to change the user's password",
+				tags: ['password', 'change'],
+				auth: { strategy: 'session' }
+			},
+			handler: async (request, h) => {
+				// Get passwords
+				const { old_password, new_password } = request.payload;
+
+				// Get user from database
+				const user = await request.server.db.collection('user').findOne({ _id: request.auth.credentials._id });
+
+				// Check if an user was found
+				if (!user) {
+					throw Boom.unauthorized('User not found');
+				}
+
+				// Compare password
+				const valid = await Bcrypt.compare(old_password, user.password);
+				if (!valid) {
+					throw Boom.forbidden('Wrong password');
+				}
+
+				// Update password in database
+				const updates = {
+					$set: {
+						password: request.server.utils.Hash.bcrypt(new_password)
+					}
+				};
+				await server.db.collection('user').findOneAndUpdate({ _id: request.auth.credentials._id }, updates);
+
+				return h.response().code(204);
+			}
 		}
 	]);
 };
