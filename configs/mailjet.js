@@ -7,7 +7,7 @@ module.exports = {
 		private: 'j8c7op6mxATXpvlxMZshjjts4vit6UdRqF0nUbFV'
 	},
 	from: {
-		name: "Contact",
+		name: 'Contact',
 		email: 'contact@example.com'
 	}
 };
