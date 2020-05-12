@@ -219,6 +219,6 @@ exports.plugin = {
 	register,
 	name: 'session',
 	version: '1.0.0',
-	description: 'Session For Api',
+	description: 'Session management via cookies',
 	dependencies: 'hapi-auth-cookie'
 };
