@@ -16,6 +16,13 @@ const plugins = [
 	},
 	// @plugin admin-flag:end
 
+	// @plugin mailjet:start
+	{
+		plugin: require('./mailjet'),
+		options: Configs.Mailjet
+	},
+	// @plugin mailjet:end
+
 	// @plugin session:start
 	require('hapi-auth-cookie'),
 	{
