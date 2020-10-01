@@ -1,0 +1,143 @@
+{
+  "version": "1",
+  "name": "Sample project",
+  "description": "Sample models collection",
+  "models": [
+    {
+      "id": "2f58a256-2583-84a8-ecaf-7dcc478d271d",
+      "name": "Place",
+      "accesses": {
+        "create": "auth",
+        "read": "guest",
+        "update": "owner",
+        "remove": "owner",
+        "search": "guest",
+        "count": "guest"
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "string",
+          "properties": [
+            "primary",
+            "internal"
+          ]
+        },
+        {
+          "name": "created at",
+          "type": "datetime",
+          "properties": [
+            "sortable",
+            "internal"
+          ]
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "properties": [
+            "label",
+            "searchable",
+            "sortable"
+          ]
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "subtype": "rich",
+          "properties": [
+            "nullable"
+          ]
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "properties": []
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "properties": [
+            "nullable"
+          ]
+        },
+        {
+          "name": "website url",
+          "type": "string",
+          "subtype": "url",
+          "properties": [
+            "nullable"
+          ]
+        },
+        {
+          "name": "owner",
+          "type": "entity",
+          "reference": "bb9a63dc-0094-0208-d8ce-26c71b34d786",
+          "properties": [
+            "searchable",
+            "internal",
+            "ownership"
+          ],
+          "notes": "Current user when creating the place"
+        }
+      ]
+    },
+    {
+      "id": "bb9a63dc-0094-0208-d8ce-26c71b34d786",
+      "name": "User",
+      "accesses": {
+        "create": "guest",
+        "read": "owner",
+        "update": "owner",
+        "remove": "owner",
+        "search": "admin",
+        "count": "admin"
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "string",
+          "properties": [
+            "primary",
+            "internal",
+            "ownership"
+          ]
+        },
+        {
+          "name": "created at",
+          "type": "datetime",
+          "properties": [
+            "sortable",
+            "internal"
+          ]
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "properties": [
+            "label",
+            "searchable",
+            "sortable"
+          ]
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "subtype": "email",
+          "properties": [
+            "unique",
+            "searchable",
+            "sortable"
+          ]
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "subtype": "password",
+          "properties": [
+            "hidden"
+          ]
+        }
+      ]
+    }
+  ]
+}
