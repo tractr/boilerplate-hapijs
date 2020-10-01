@@ -61,14 +61,6 @@
           ]
         },
         {
-          "name": "website url",
-          "type": "string",
-          "subtype": "url",
-          "properties": [
-            "nullable"
-          ]
-        },
-        {
           "name": "owner",
           "type": "entity",
           "reference": "bb9a63dc-0094-0208-d8ce-26c71b34d786",
