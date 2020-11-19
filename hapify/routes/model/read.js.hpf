@@ -1,31 +1,31 @@
 'use strict';
  
 /**
- * Read <<M a>>
+ * Read <<Model lower>>
  */
  
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const MongoDB = require('mongodb');
-<<? Ar ow>>
+<<if ReadAccess owner>>
 const Pres = require('../../pres');
-<<?>>
+<<endif>>
 
 <<# Includes projection if this model has private fields >>
-<<? F hd>>
-const <<M AA>>Projection = require('./inc').projection;
-<<?>>
+<<if Fields hidden>>
+const <<Model pascal>>Projection = require('./inc').projection;
+<<endif>>
 
 <<# Includes projections for all non-private dependencies that have private fields >>
-<<@ D !hd d>>
-    <<? d.f hd>>
-const <<d AA>>Projection = require('../<<d a-a>>/inc').projection;
-    <<?>>
-<<@>>
+<<for Dependencies not hidden d>>
+    <<if d.f hidden>>
+const <<d pascal>>Projection = require('../<<d kebab>>/inc').projection;
+    <<endif>>
+<<endfor>>
  
 // Validation schema for params
 const schema = Joi.object({
-    <<P a_a>>: Joi.string().length(24).hex().required()
+    <<PrimaryField snake>>: Joi.string().length(24).hex().required()
 });
  
 /**
@@ -33,51 +33,51 @@ const schema = Joi.object({
  */
 const handler = async (request) => {
  
-    // Get <<M a>> <<P a>>
-    const <<P a_a>> = new MongoDB.ObjectId(request.params.<<P a_a>>);
+    // Get <<Model lower>> <<PrimaryField lower>>
+    const <<PrimaryField snake>> = new MongoDB.ObjectId(request.params.<<PrimaryField snake>>);
  
-    // Get <<M a>> from database
-    const result = await request.server.db.collection('<<M a_a>>')
-        .findOne({ <<P a_a>> }<<? F hd>>, { projection: <<M AA>>Projection() }<<?>>);
+    // Get <<Model lower>> from database
+    const result = await request.server.db.collection('<<Model snake>>')
+        .findOne({ <<PrimaryField snake>> }<<if Fields hidden>>, { projection: <<Model pascal>>Projection() }<<endif>>);
  
     if (!result) {
-        throw Boom.notFound('<<M A>> not found');
+        throw Boom.notFound('<<Model capital>> not found');
     }
 
-<<? F tE/hd>>
+<<if Fields entity and not hidden>>
  
     // Convert reference fields
     await request.server.utils.Entity
         .populate(request.server.db, result, [
-    <<@ F tE/hd r>>
+    <<for Fields entity and not hidden r>>
             {
-                col: '<<r.m a_a>>',
-                prop: '<<r a_a>>',
-        <<? r ml>>
+                col: '<<r.m snake>>',
+                prop: '<<r snake>>',
+        <<if r multiple>>
                 multiple: true,
-        <<?>>
-        <<? r.m.f hd>>
-                projection: <<r.m AA>>Projection()
-        <<?>>
+        <<endif>>
+        <<if r.m.f hidden>>
+                projection: <<r.m pascal>>Projection()
+        <<endif>>
             },
-    <<@>>
+    <<endfor>>
         ]);
-<<?>>
+<<endif>>
  
     return result;
 };
  
 /**
- * Export route to get <<M a>>
+ * Export route to get <<Model lower>>
  */
 module.exports = [
     {
         method: 'GET',
-        path: '/admin/<<M a-a>>/{<<P a_a>>}',
+        path: '/admin/<<Model kebab>>/{<<PrimaryField snake>>}',
         config: {
             validate: { params: schema },
-            description: 'Route to get <<M a>> as admin',
-            tags: ['admin', '<<M a-a>>', 'read'],
+            description: 'Route to get <<Model lower>> as admin',
+            tags: ['admin', '<<Model kebab>>', 'read'],
             auth: {
                 strategy: 'session',
                 scope: 'role-admin'
@@ -85,26 +85,26 @@ module.exports = [
         },
         handler
     },
-<<? Ar [ow>>
+<<if ReadAccess gteOwner>>
     {
         method: 'GET',
-        path: '/<<M a-a>>/{<<P a_a>>}',
+        path: '/<<Model kebab>>/{<<PrimaryField snake>>}',
         config: {
             validate: { params: schema },
-            description: 'Route to get <<M a>>',
-            tags: ['<<M a-a>>', 'read'],
-    <<? Ar !gs>>
+            description: 'Route to get <<Model lower>>',
+            tags: ['<<Model kebab>>', 'read'],
+    <<if ReadAccess not guest>>
             auth: { strategy: 'session' },
-    <<?>>
-    <<? Ar ow>>
+    <<endif>>
+    <<if ReadAccess owner>>
             pre: [
-                { method: Pres.GetEntity('<<M a_a>>', 'params.<<P a_a>>'), assign: '<<M aA>>' },
-                { method: Pres.EnsureAccess('pre.<<M aA>>.<<@1 F os o>><<o a_a>><<@>>') }
+                { method: Pres.GetEntity('<<Model snake>>', 'params.<<PrimaryField snake>>'), assign: '<<Model camel>>' },
+                { method: Pres.EnsureAccess('pre.<<Model camel>>.<<for1 Fields ownership o>><<o snake>><<endfor>>') }
             ]
-    <<?>>
+    <<endif>>
         },
         handler
     }
-<<?>>
+<<endif>>
 ];
  

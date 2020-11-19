@@ -1,7 +1,7 @@
 'use strict';
  
 /**
- * Export endpoints for <<M a>>.
+ * Export endpoints for <<Model lower>>.
  */
  
 module.exports = [

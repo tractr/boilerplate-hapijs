@@ -1,19 +1,19 @@
 'use strict';
  
 /**
- * Delete <<M a>>
+ * Delete <<Model lower>>
  */
  
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const MongoDB = require('mongodb');
-<<? Ad ow>>
+<<if RemoveAccess owner>>
 const Pres = require('../../pres');
-<<?>>
+<<endif>>
  
 // Validation schema for params
 const schema = Joi.object({
-    <<P a_a>>: Joi.string().length(24).hex().required()
+    <<PrimaryField snake>>: Joi.string().length(24).hex().required()
 });
  
 /**
@@ -21,52 +21,52 @@ const schema = Joi.object({
  */
 const handler = async (request, h) => {
  
-    // Get <<M a>> <<P a>>
-    const <<P a_a>> = new MongoDB.ObjectId(request.params.<<P a_a>>);
+    // Get <<Model lower>> <<PrimaryField lower>>
+    const <<PrimaryField snake>> = new MongoDB.ObjectId(request.params.<<PrimaryField snake>>);
  
-    // @hook delete:before-delete:<<M a-a>>
+    // @hook delete:before-delete:<<Model kebab>>
     
-    // Remove <<M a>> from database
-    const result = await request.server.db.collection('<<M a_a>>')
-        .deleteOne({ <<P a_a>> });
+    // Remove <<Model lower>> from database
+    const result = await request.server.db.collection('<<Model snake>>')
+        .deleteOne({ <<PrimaryField snake>> });
  
     if (result.deletedCount === 0) {
-        throw Boom.notFound('<<M A>> not found');
+        throw Boom.notFound('<<Model capital>> not found');
     }
  
-    // @hook delete:after-delete:<<M a-a>>
+    // @hook delete:after-delete:<<Model kebab>>
 
-<<? R>>
+<<if ReferencedIn>>
  
-    <<@ R m>>
-        <<@ m.f f>>
-    // Remove references in <<m a>> as <<f a>>
-    await request.server.db.collection('<<m a_a>>')
-            <<? f ml>>
-        .updateMany({ <<f a_a>>: <<P a_a>> }, { $pull: { <<f a_a>>: <<P a_a>> } });
-            <<??>>
-        .updateMany({ <<f a_a>>: <<P a_a>> }, { $set: { <<f a_a>>: null } });
-            <<?>>
+    <<for ReferencedIn m>>
+        <<for m.f f>>
+    // Remove references in <<m lower>> as <<f lower>>
+    await request.server.db.collection('<<m snake>>')
+            <<if f multiple>>
+        .updateMany({ <<f snake>>: <<PrimaryField snake>> }, { $pull: { <<f snake>>: <<PrimaryField snake>> } });
+            <<else>>
+        .updateMany({ <<f snake>>: <<PrimaryField snake>> }, { $set: { <<f snake>>: null } });
+            <<endif>>
 
-        <<@>>
-    <<@>>
+        <<endfor>>
+    <<endfor>>
 
-<<?>>
+<<endif>>
  
     return h.response().code(204);
 };
  
 /**
- * Export route to delete <<M a>>
+ * Export route to delete <<Model lower>>
  */
 module.exports = [
     {
         method: 'DELETE',
-        path: '/admin/<<M a-a>>/{<<P a_a>>}',
+        path: '/admin/<<Model kebab>>/{<<PrimaryField snake>>}',
         config: {
             validate: { params: schema },
-            description: 'Route to delete <<M a>> as admin',
-            tags: ['admin', '<<M a-a>>', 'delete'],
+            description: 'Route to delete <<Model lower>> as admin',
+            tags: ['admin', '<<Model kebab>>', 'delete'],
             auth: {
                 strategy: 'session',
                 scope: 'role-admin'
@@ -74,26 +74,26 @@ module.exports = [
         },
         handler
     },
-<<? Ad [ow>>
+<<if RemoveAccess gteOwner>>
     {
         method: 'DELETE',
-        path: '/<<M a-a>>/{<<P a_a>>}',
+        path: '/<<Model kebab>>/{<<PrimaryField snake>>}',
         config: {
             validate: { params: schema },
-            description: 'Route to delete <<M a>>',
-            tags: ['<<M a-a>>', 'delete'],
-    <<? Ad !gs>>
+            description: 'Route to delete <<Model lower>>',
+            tags: ['<<Model kebab>>', 'delete'],
+    <<if RemoveAccess not guest>>
             auth: { strategy: 'session' },
-    <<?>>
-    <<? Ad ow>>
+    <<endif>>
+    <<if RemoveAccess owner>>
             pre: [
-                { method: Pres.GetEntity('<<M a_a>>', 'params.<<P a_a>>'), assign: '<<M aA>>' },
-                { method: Pres.EnsureAccess('pre.<<M aA>>.<<@1 F os o>><<o a_a>><<@>>') }
+                { method: Pres.GetEntity('<<Model snake>>', 'params.<<PrimaryField snake>>'), assign: '<<Model camel>>' },
+                { method: Pres.EnsureAccess('pre.<<Model camel>>.<<for1 Fields ownership o>><<o snake>><<endfor>>') }
             ]
-    <<?>>
+    <<endif>>
         },
         handler
     }
-<<?>>
+<<endif>>
 ];
  

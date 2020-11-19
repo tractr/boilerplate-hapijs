@@ -1,48 +1,48 @@
 'use strict';
  
 /**
- * Search & count <<M a>>
+ * Search & count <<Model lower>>
  */
  
 const Joi = require('@hapi/joi');
 const MongoDB = require('mongodb');
-<<? F hd>>
-const <<M AA>>Projection = require('./inc').projection;
-<<?>>
+<<if Fields hidden>>
+const <<Model pascal>>Projection = require('./inc').projection;
+<<endif>>
 
 <<# Includes projections for all embedded (forced non-private) dependencies that have private fields >>
-<<@ D em d>>
-    <<? d.f hd>>
-const <<d AA>>Projection = require('../<<d a-a>>/inc').projection;
-    <<?>>
-<<@>>
+<<for Dependencies embedded d>>
+    <<if d.f hidden>>
+const <<d pascal>>Projection = require('../<<d kebab>>/inc').projection;
+    <<endif>>
+<<endfor>>
  
 // Validation schema for query
 const baseObjectSchema = {
-    <<P a_a>>: Joi.array().items(Joi.string().length(24).hex()).single(),
-<<@ F se f>>
+    <<PrimaryField snake>>: Joi.array().items(Joi.string().length(24).hex()).single(),
+<<for Fields searchable f>>
     <<=joiValidator(f)>>
-<<@>>
+<<endfor>>
 };
 const createFiltrableSchema = (input) => Joi.object(input)
-<<@ F se*(tN+tD) f>>
-    .without('<<f a_a>>', ['<<f a_a>>__min', '<<f a_a>>__max'])
-<<@>>;
+<<for Fields searchable and (number or datetime) f>>
+    .without('<<f snake>>', ['<<f snake>>__min', '<<f snake>>__max'])
+<<endfor>>;
 const createSearchableSchema = (input) => createFiltrableSchema(Object.assign({
     _page: Joi.number().min(0).required(),
     _limit: Joi.number().min(1).max(100).required(),
-    _sort: Joi.string().valid(<<@ F so+pr f>>'<<f a_a>>', <<@>>),
+    _sort: Joi.string().valid(<<for Fields sortable or primary f>>'<<f snake>>', <<endfor>>),
     _order: Joi.string().valid('asc', 'desc')
 }, input));
  
 <<# If we are in an search/count by owner context and the ownership field is searchable >>
 <<# therefore we don't allow filtering by this field for public user. It will be forced in the handler >>
-<<? As [ow>>
-const searchSchemaPublic = createSearchableSchema(baseObjectSchema)<<? As ow>><<=forbiddenKeys()>><<?>>;
-<<?>>
-<<? An [ow>>
-const countSchemaPublic = createFiltrableSchema(baseObjectSchema)<<? An ow>><<=forbiddenKeys()>><<?>>;
-<<?>>
+<<if SearchAccess gteOwner>>
+const searchSchemaPublic = createSearchableSchema(baseObjectSchema)<<if SearchAccess owner>><<=forbiddenKeys()>><<endif>>;
+<<endif>>
+<<if CountAccess gteOwner>>
+const countSchemaPublic = createFiltrableSchema(baseObjectSchema)<<if CountAccess owner>><<=forbiddenKeys()>><<endif>>;
+<<endif>>
 const searchSchemaAdmin = createSearchableSchema(baseObjectSchema);
 const countSchemaAdmin = createFiltrableSchema(baseObjectSchema);
  
@@ -60,55 +60,55 @@ const getCursor = (request) => {
     delete filter._sort;
     delete filter._order;
  
-    // Convert MongoId for <<P a>>
-    if (filter.<<P a_a>>) {
-        filter.<<P a_a>> = { $in: filter.<<P a_a>>.map((i) => new MongoDB.ObjectId(i)) };
+    // Convert MongoId for <<PrimaryField lower>>
+    if (filter.<<PrimaryField snake>>) {
+        filter.<<PrimaryField snake>> = { $in: filter.<<PrimaryField snake>>.map((i) => new MongoDB.ObjectId(i)) };
     }
 
-<<@ F se f>>
+<<for Fields searchable f>>
 
-    <<? f tN+tD>>
+    <<if f number or datetime>>
  
-    // Set min for <<f a>> if defined
-    if (typeof filter.<<f a_a>>__min !== 'undefined') {
-        filter.<<f a_a>> = filter.<<f a_a>> || {};
-        filter.<<f a_a>>.$gte = filter.<<f a_a>>__min;
-        delete filter.<<f a_a>>__min;
+    // Set min for <<f lower>> if defined
+    if (typeof filter.<<f snake>>__min !== 'undefined') {
+        filter.<<f snake>> = filter.<<f snake>> || {};
+        filter.<<f snake>>.$gte = filter.<<f snake>>__min;
+        delete filter.<<f snake>>__min;
     }
-    // Set max for <<f a>> if defined
-    if (typeof filter.<<f a_a>>__max !== 'undefined') {
-        filter.<<f a_a>> = filter.<<f a_a>> || {};
-        filter.<<f a_a>>.$lte = filter.<<f a_a>>__max;
-        delete filter.<<f a_a>>__max;
+    // Set max for <<f lower>> if defined
+    if (typeof filter.<<f snake>>__max !== 'undefined') {
+        filter.<<f snake>> = filter.<<f snake>> || {};
+        filter.<<f snake>>.$lte = filter.<<f snake>>__max;
+        delete filter.<<f snake>>__max;
     }
-    <<?? f tE>>
+    <<elseif f entity>>
  
-    // Convert MongoId for <<f a>>
-    if (filter.<<f a_a>>) {
-        <<? f ml>>
-        filter.<<f a_a>> = { $all: filter.<<f a_a>>.map((i) => new MongoDB.ObjectId(i)) };
-        <<??>>
-        filter.<<f a_a>> = new MongoDB.ObjectId(filter.<<f a_a>>);
-        <<?>>
+    // Convert MongoId for <<f lower>>
+    if (filter.<<f snake>>) {
+        <<if f multiple>>
+        filter.<<f snake>> = { $all: filter.<<f snake>>.map((i) => new MongoDB.ObjectId(i)) };
+        <<else>>
+        filter.<<f snake>> = new MongoDB.ObjectId(filter.<<f snake>>);
+        <<endif>>
     }
-        <<? As ow>>
-            <<? f os>>
+        <<if SearchAccess owner>>
+            <<if f ownership>>
     else if (!request.fromAdmin) {
-        filter.<<f a_a>> = <<? f ml>>[<<?>>request.auth.credentials._id<<? f ml>>]<<?>>;
+        filter.<<f snake>> = <<if f multiple>>[<<endif>>request.auth.credentials._id<<if f multiple>>]<<endif>>;
     }
-            <<?>>
-        <<?>>
-    <<?? f tS*lb>>
+            <<endif>>
+        <<endif>>
+    <<elseif f string and label>>
  
-    // Use regexp for <<f a>>
-    if (filter.<<f a_a>>) {
-        filter.<<f a_a>> = new RegExp(filter.<<f a_a>>.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
+    // Use regexp for <<f lower>>
+    if (filter.<<f snake>>) {
+        filter.<<f snake>> = new RegExp(filter.<<f snake>>.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
     }
-    <<?>>
-<<@>>
+    <<endif>>
+<<endfor>>
     
-    return request.server.db.collection('<<M a_a>>')
-        .find(filter<<? F hd>>, { projection: <<M AA>>Projection() }<<?>>);
+    return request.server.db.collection('<<Model snake>>')
+        .find(filter<<if Fields hidden>>, { projection: <<Model pascal>>Projection() }<<endif>>);
 };
  
 /**
@@ -121,7 +121,7 @@ const searchHandler = async (request) => {
     const order = request.query._order || 'asc';
     const sort = request.query._sort;
  
-    // Get <<M a>> list from database
+    // Get <<Model lower>> list from database
     const cursor = getCursor(request)
         .skip(skip)
         .limit(request.query._limit);
@@ -135,25 +135,25 @@ const searchHandler = async (request) => {
     const results = await cursor.toArray();
     const total = await cursor.count();
 
-<<? F tE*em>>
+<<if Fields entity and embedded>>
  
     // Convert reference fields
     await request.server.utils.Entity
         .populateList(request.server.db, results, [
-    <<@ F tE*em r>>
+    <<for Fields entity and embedded r>>
             {
-                col: '<<r.m a_a>>',
-                prop: '<<r a_a>>',
-        <<? r ml>>
+                col: '<<r.m snake>>',
+                prop: '<<r snake>>',
+        <<if r multiple>>
                 multiple: true,
-        <<?>>
-        <<? r.m.f hd>>
-                projection: <<r.m AA>>Projection()
-        <<?>>
+        <<endif>>
+        <<if r.m.f hidden>>
+                projection: <<r.m pascal>>Projection()
+        <<endif>>
             },
-    <<@>>
+    <<endfor>>
         ]);
-<<?>>
+<<endif>>
  
     return {
         page: request.query._page,
@@ -168,21 +168,21 @@ const searchHandler = async (request) => {
  * Define handler for count
  */
 const countHandler = async (request) => {
-    // Count <<M a>> from database
+    // Count <<Model lower>> from database
     return { total: await getCursor(request).count() };
 };
  
 /**
- * Export routes to search & count <<M a>>
+ * Export routes to search & count <<Model lower>>
  */
 module.exports = [
     {
         method: 'GET',
-        path: '/admin/<<M a-a>>',
+        path: '/admin/<<Model kebab>>',
         config: {
             validate: { query: searchSchemaAdmin },
-            description: 'Route to search <<M a>> as admin',
-            tags: ['admin', '<<M a-a>>', 'search'],
+            description: 'Route to search <<Model lower>> as admin',
+            tags: ['admin', '<<Model kebab>>', 'search'],
             auth: {
                 strategy: 'session',
                 scope: 'role-admin'
@@ -192,11 +192,11 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/admin/<<M a-a>>/count',
+        path: '/admin/<<Model kebab>>/count',
         config: {
             validate: { query: countSchemaAdmin },
-            description: 'Route to count <<M a>> as admin',
-            tags: ['admin', '<<M a-a>>', 'count'],
+            description: 'Route to count <<Model lower>> as admin',
+            tags: ['admin', '<<Model kebab>>', 'count'],
             auth: {
                 strategy: 'session',
                 scope: 'role-admin'
@@ -204,36 +204,36 @@ module.exports = [
         },
         handler: countHandler
     },
-<<? As [ow>>
+<<if SearchAccess gteOwner>>
     {
         method: 'GET',
-        path: '/<<M a-a>>',
+        path: '/<<Model kebab>>',
         config: {
             validate: { query: searchSchemaPublic },
-            description: 'Route to search <<M a>>',
-            tags: ['<<M a-a>>', 'search'],
-    <<? As !gs>>
+            description: 'Route to search <<Model lower>>',
+            tags: ['<<Model kebab>>', 'search'],
+    <<if SearchAccess not guest>>
             auth: { strategy: 'session' },
-    <<?>>
+    <<endif>>
         },
         handler: searchHandler
     },
-<<?>>
-<<? An [ow>>
+<<endif>>
+<<if CountAccess gteOwner>>
     {
         method: 'GET',
-        path: '/<<M a-a>>/count',
+        path: '/<<Model kebab>>/count',
         config: {
             validate: { query: countSchemaPublic },
-            description: 'Route to count <<M a>>',
-            tags: ['<<M a-a>>', 'count'],
-    <<? An !gs>>
+            description: 'Route to count <<Model lower>>',
+            tags: ['<<Model kebab>>', 'count'],
+    <<if CountAccess not guest>>
             auth: { strategy: 'session' },
-    <<?>>
+    <<endif>>
         },
         handler: countHandler
     }
-<<?>>
+<<endif>>
 ];
  
 <<< 

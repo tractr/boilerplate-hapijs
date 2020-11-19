@@ -1,21 +1,21 @@
 'use strict';
  
 /**
- * Export common methods for <<M a>>
+ * Export common methods for <<Model lower>>
  */
  
 module.exports = {
-<<? F hd>>
+<<if Fields hidden>>
     projection: () => ({
-    <<? M pMHd>>
-        <<@ F /pr/hd f>>
-        <<f a_a>>: true,
-        <<@>>
-    <<??>>
-        <<@ F hd f>>
-        <<f a_a>>: false,
-        <<@>>
-    <<?>>
+    <<if Model mainlyHidden>>
+        <<for Fields not primary and not hidden f>>
+        <<f snake>>: true,
+        <<endfor>>
+    <<else>>
+        <<for Fields hidden f>>
+        <<f snake>>: false,
+        <<endfor>>
+    <<endif>>
     })
-<<?>>
+<<endif>>
 };

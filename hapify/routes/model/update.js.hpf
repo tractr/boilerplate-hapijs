@@ -1,35 +1,35 @@
 'use strict';
  
 /**
- * Update <<M a>>
+ * Update <<Model lower>>
  */
  
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const MongoDB = require('mongodb');
-<<? Au ow>>
+<<if UpdateAccess owner>>
 const Pres = require('../../pres');
-<<?>>
+<<endif>>
  
 // Validation schema for params
 const schemaParams = Joi.object({
-    <<P a_a>>: Joi.string().length(24).hex().required()
+    <<PrimaryField snake>>: Joi.string().length(24).hex().required()
 });
 // Validation schema for payload
 const schemaObjectPayloadPublic = {
-<<@ F /rs/in f>>
-    <<f a_a>>: <<=joiValidator(f)>>,
-<<@>>
+<<for Fields not restricted and not internal f>>
+    <<f snake>>: <<=joiValidator(f)>>,
+<<endfor>>
 };
-<<? F rs>>
+<<if Fields restricted>>
 const schemaObjectPayloadAdmin = Object.assign({
-    <<@ F rs f>>
-    <<f a_a>>: <<=joiValidator(f)>>,
-    <<@>>
+    <<for Fields restricted f>>
+    <<f snake>>: <<=joiValidator(f)>>,
+    <<endfor>>
 }, schemaObjectPayloadPublic);
-<<??>>
+<<else>>
 const schemaObjectPayloadAdmin = schemaObjectPayloadPublic;
-<<?>>
+<<endif>>
  
 /**
  * Define handler
@@ -39,44 +39,44 @@ const handler = async (request, h) => {
     // Get updates from payload
     const updates = { $set: request.payload };
  
-    // Get <<M a>> <<P a>>
-    const <<P a_a>> = new MongoDB.ObjectId(request.params.<<P a_a>>);
+    // Get <<Model lower>> <<PrimaryField lower>>
+    const <<PrimaryField snake>> = new MongoDB.ObjectId(request.params.<<PrimaryField snake>>);
 
-<<? F tE/in>>
+<<if Fields entity and not internal>>
  
     // Convert reference fields
-    <<@ F tE/in r>>
-        <<? r ml>>
-    if (updates.$set.<<r a_a>> instanceof Array) {
-        updates.$set.<<r a_a>> = updates.$set.<<r a_a>>.map((i) => new MongoDB.ObjectId(i));
+    <<for Fields entity and not internal r>>
+        <<if r multiple>>
+    if (updates.$set.<<r snake>> instanceof Array) {
+        updates.$set.<<r snake>> = updates.$set.<<r snake>>.map((i) => new MongoDB.ObjectId(i));
     }
-        <<??>>
-    if (typeof updates.$set.<<r a_a>> === 'string') {
-        updates.$set.<<r a_a>> = new MongoDB.ObjectId(request.payload.<<r a_a>>);
+        <<else>>
+    if (typeof updates.$set.<<r snake>> === 'string') {
+        updates.$set.<<r snake>> = new MongoDB.ObjectId(request.payload.<<r snake>>);
     }
-        <<?>>
-    <<@>>
-<<?>>
+        <<endif>>
+    <<endfor>>
+<<endif>>
 
-<<@ F tSp/in p>>
+<<for Fields password and not internal p>>
  
-    // Hash <<p a>>
-    if (typeof updates.$set.<<p a_a>> !== 'undefined') {
-        updates.$set.<<p a_a>> = request.server.utils.Hash.bcrypt(updates.$set.<<p a_a>>);
+    // Hash <<p lower>>
+    if (typeof updates.$set.<<p snake>> !== 'undefined') {
+        updates.$set.<<p snake>> = request.server.utils.Hash.bcrypt(updates.$set.<<p snake>>);
     }
-<<@>>
+<<endfor>>
  
-    // @hook update:before-update:<<M a-a>>
+    // @hook update:before-update:<<Model kebab>>
  
     // Insertion options
     const options = { w: 'majority' };
  
-    // Update <<M a>> in database
-<<? F un>>
+    // Update <<Model lower>> in database
+<<if Fields unique>>
     let result;
     try {
-        result = await request.server.db.collection('<<M a_a>>')
-            .updateOne({ <<P a_a>> }, updates, options);
+        result = await request.server.db.collection('<<Model snake>>')
+            .updateOne({ <<PrimaryField snake>> }, updates, options);
     }
     catch (e) {
         // Handle duplicated key for unique indexes
@@ -84,34 +84,34 @@ const handler = async (request, h) => {
             Boom.conflict('Duplicate key') :
             Boom.boomify(e);
     }
-<<??>>
-    const result = await request.server.db.collection('<<M a_a>>')
-        .updateOne({ <<P a_a>> }, updates, options);
-<<?>>
+<<else>>
+    const result = await request.server.db.collection('<<Model snake>>')
+        .updateOne({ <<PrimaryField snake>> }, updates, options);
+<<endif>>
  
     if (!result.matchedCount) {
-        throw Boom.notFound('<<M A>> not found');
+        throw Boom.notFound('<<Model capital>> not found');
     }
  
-    // @hook update:after-update:<<M a-a>>
+    // @hook update:after-update:<<Model kebab>>
  
     return h.response().code(204);
 };
  
 /**
- * Export route to update <<M a>>
+ * Export route to update <<Model lower>>
  */
 module.exports = [
     {
         method: 'PATCH',
-        path: '/admin/<<M a-a>>/{<<P a_a>>}',
+        path: '/admin/<<Model kebab>>/{<<PrimaryField snake>>}',
         config: {
             validate: {
                 params: schemaParams,
                 payload: Joi.object(schemaObjectPayloadAdmin).min(1)
             },
-            description: 'Route to update <<M a>> as admin',
-            tags: ['admin', '<<M a-a>>', 'update'],
+            description: 'Route to update <<Model lower>> as admin',
+            tags: ['admin', '<<Model kebab>>', 'update'],
             auth: {
                 strategy: 'session',
                 scope: 'role-admin'
@@ -119,30 +119,30 @@ module.exports = [
         },
         handler
     },
-<<? Au [ow>>
+<<if UpdateAccess gteOwner>>
     {
         method: 'PATCH',
-        path: '/<<M a-a>>/{<<P a_a>>}',
+        path: '/<<Model kebab>>/{<<PrimaryField snake>>}',
         config: {
             validate: {
                 params: schemaParams,
                 payload: Joi.object(schemaObjectPayloadPublic).min(1)
             },
-            description: 'Route to update <<M a>>',
-            tags: ['<<M a-a>>', 'update'],
-    <<? Au !gs>>
+            description: 'Route to update <<Model lower>>',
+            tags: ['<<Model kebab>>', 'update'],
+    <<if UpdateAccess not guest>>
             auth: { strategy: 'session' },
-    <<?>>
-    <<? Au ow>>
+    <<endif>>
+    <<if UpdateAccess owner>>
             pre: [
-                { method: Pres.GetEntity('<<M a_a>>', 'params.<<P a_a>>'), assign: '<<M aA>>' },
-                { method: Pres.EnsureAccess('pre.<<M aA>>.<<@1 F os o>><<o a_a>><<@>>') }
+                { method: Pres.GetEntity('<<Model snake>>', 'params.<<PrimaryField snake>>'), assign: '<<Model camel>>' },
+                { method: Pres.EnsureAccess('pre.<<Model camel>>.<<for1 Fields ownership o>><<o snake>><<endfor>>') }
             ]
-    <<?>>
+    <<endif>>
         },
         handler
     }
-<<?>>
+<<endif>>
 ];
  
 <<< 
