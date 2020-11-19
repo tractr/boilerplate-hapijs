@@ -80,7 +80,7 @@ If you need to update you data models and re-generate code (using [Hapify](https
 - 1. Run this command `docker-compose run --rm api npm run cmd setup` to update the MongoDb indexes.
 - 2. Restart the API.
 
-Please refer to [Hapify Best Practices](https://www.hapify.io/documentation/best-practices) to learn more about Git patches within Hapify Context.
+Please refer to [Hapify Best Practices](https://docs.hapify.io/en/latest/best-practices/) to learn more about Git patches within Hapify Context.
 
 
 ## Documentation
